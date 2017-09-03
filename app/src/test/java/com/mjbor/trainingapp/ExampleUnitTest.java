@@ -1,5 +1,8 @@
 package com.mjbor.trainingapp;
 
+import com.mjbor.trainingapp.Register.presenter.RegisterPresenter;
+import com.mjbor.trainingapp.Register.view.IRegisterView;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -14,4 +17,6 @@ public class ExampleUnitTest {
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
     }
+
+
 }

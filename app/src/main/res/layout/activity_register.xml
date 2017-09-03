@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="10dp"
+    android:orientation="vertical"
+    tools:context="com.mjbor.trainingapp.Register.view.RegisterActivity"
+    android:gravity="center_horizontal">
+
+
+    <EditText
+        android:id="@+id/usernameEditText"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/username"/>
+
+    <EditText
+        android:id="@+id/emailEditText"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"/>
+
+    <EditText
+        android:id="@+id/passwordEditText"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/password"
+        android:inputType="textPassword"/>
+
+    <EditText
+        android:id="@+id/nameEditText"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/name"/>
+
+    <EditText
+        android:id="@+id/surnameEditText"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/surname"/>
+
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="@string/submit"
+        android:onClick="submitClicked"
+        />
+
+
+</LinearLayout>
