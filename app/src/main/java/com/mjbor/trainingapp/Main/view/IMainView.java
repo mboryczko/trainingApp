@@ -11,4 +11,5 @@ public interface IMainView {
     public void toast(String message);
 
     public void setUpSpecificFragment(Fragment fragment);
+    public void onLogout();
 }

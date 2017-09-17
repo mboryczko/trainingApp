@@ -27,5 +27,11 @@ public class MainPresenter {
 
     }
 
+    public void logoutClicked(){
+        sessionManager.logoutUser();
+        view.onLogout();
+
+    }
+
 
 }

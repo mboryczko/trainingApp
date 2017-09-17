@@ -6,5 +6,4 @@ package com.mjbor.trainingapp.Profile;
 
 public interface IProfileFragment {
 
-    public void onLogout();
 }

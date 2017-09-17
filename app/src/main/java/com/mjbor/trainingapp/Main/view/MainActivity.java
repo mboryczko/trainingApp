@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.mjbor.trainingapp.Home.HomeFragment;
+import com.mjbor.trainingapp.Login.view.LoginActivity;
 import com.mjbor.trainingapp.Main.presenter.MainPresenter;
 import com.mjbor.trainingapp.Profile.ProfileFragment;
 import com.mjbor.trainingapp.Progress.ProgressFragment;
@@ -62,6 +63,22 @@ public class MainActivity extends AppCompatActivity implements IMainView,
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_NONE);
         fragmentTransaction.commit();
+    }
+
+    public void logoutClicked(View v){
+        presenter.logoutClicked();
+    }
+
+    @Override
+    public void onLogout() {
+        Intent i = new Intent(this, LoginActivity.class);
+        // Closing all the Activities
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        // Add new Flag to start new Activity
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        // Staring Login Activity
+        startActivity(i);
+        finish();
     }
 
     @Override

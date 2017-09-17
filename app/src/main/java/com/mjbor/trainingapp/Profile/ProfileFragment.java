@@ -31,19 +31,6 @@ public class ProfileFragment extends Fragment implements IProfileFragment{
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 
-    public void logoutButton(View v){
-        presenter.logoutClicked();
-    }
 
-    @Override
-    public void onLogout() {
-        Intent i = new Intent(getActivity(), LoginActivity.class);
-        // Closing all the Activities
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        // Add new Flag to start new Activity
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        // Staring Login Activity
-        startActivity(i);
-        getActivity().finish();
-    }
+
 }

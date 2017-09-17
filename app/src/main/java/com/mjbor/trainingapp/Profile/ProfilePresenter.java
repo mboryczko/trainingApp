@@ -15,22 +15,12 @@ public class ProfilePresenter {
 
     IProfileFragment view;
 
-    private ISessionManager sessionManager;
 
     @BindView(R.id.logoutButton) Button logoutButton;
 
     public ProfilePresenter(IProfileFragment view){
         this.view = view;
-        this.sessionManager = sessionManager;
     }
-
-
-    public void logoutClicked(){
-        sessionManager.logoutUser();
-        view.onLogout();
-
-    }
-
 
 
 }
