@@ -3,6 +3,7 @@ package com.mjbor.trainingapp.Login.presenter;
 
 import com.mjbor.trainingapp.Login.model.LoginInteractor;
 import com.mjbor.trainingapp.Login.view.ILoginView;
+import com.mjbor.trainingapp.Utils.UserUtils;
 import com.mjbor.trainingapp.models.User;
 import com.mjbor.trainingapp.sessions.ISessionManager;
 import com.mjbor.trainingapp.sessions.SessionManager;
@@ -28,14 +29,22 @@ public class LoginPresenter {
     }
 
 
-    public void onLoginSuccess(String message){
-        sessionManager.createLoginSession("user1", "email1");
+    public void onLoginSuccess(String message, String token){
+        sessionManager.createLoginSession(token);
         requestSent = false;
         view.goToMain();
     }
 
+    public void onLoginSuccess(String message){
+        requestSent = false;
+        view.goToMain();
+    }
+
+
     public void onLoginFailure(String message){
         requestSent = false;
+        view.setProgressBarInvisible();
+        view.setButtonText("LOGIN");
         view.toast(message);
     }
 
@@ -43,6 +52,9 @@ public class LoginPresenter {
 
     public void login(String username, String password){
         if(!requestSent && validate(username, password)){
+            view.setButtonText("");
+            view.setProgressBarVisible();
+
             loginInteractor.login(username, password);
             requestSent = true;
 

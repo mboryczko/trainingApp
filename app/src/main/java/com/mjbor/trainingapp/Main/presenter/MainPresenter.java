@@ -1,11 +1,11 @@
 package com.mjbor.trainingapp.Main.presenter;
 
-import com.mjbor.trainingapp.Login.model.LoginInteractor;
-import com.mjbor.trainingapp.Login.view.ILoginView;
+import android.app.Fragment;
+
+
 import com.mjbor.trainingapp.Main.model.MainInteractor;
 import com.mjbor.trainingapp.Main.view.IMainView;
 import com.mjbor.trainingapp.sessions.ISessionManager;
-import com.mjbor.trainingapp.sessions.SessionManager;
 
 
 /**
@@ -26,12 +26,6 @@ public class MainPresenter {
         this.sessionManager = sessionManager;
 
     }
-
-    public void logOut(){
-        sessionManager.logoutUser();
-        view.onLogout();
-    }
-
 
 
 }

@@ -21,9 +21,11 @@ public class RegisterPresenter {
         this.registerInteractor = new RegisterInteractor(this);
     }
 
-    public void register(User user){
+    public void registerClicked(User user){
         if(validate(user)){
             registerInteractor.register(user);
+            view.setButtonText("");
+            view.setProgressBarVisible();
         }
 
     }
@@ -67,6 +69,8 @@ public class RegisterPresenter {
     }
 
     public void onRegisterFailure(String message){
+        view.setProgressBarInvisible();
+        view.setButtonText("Login");
         view.toast(message);
     }
 

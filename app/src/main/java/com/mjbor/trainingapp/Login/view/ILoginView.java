@@ -8,4 +8,8 @@ public interface ILoginView {
 
     public void goToMain();
     public void toast(String message);
+
+    public void setProgressBarVisible();
+    public void setProgressBarInvisible();
+    public void setButtonText(String text);
 }

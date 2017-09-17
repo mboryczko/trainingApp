@@ -2,6 +2,7 @@ package com.mjbor.trainingapp.Login.model;
 
 import com.mjbor.trainingapp.models.User;
 import com.mjbor.trainingapp.rest.DefaultResponse;
+import com.mjbor.trainingapp.rest.LoginResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -16,6 +17,6 @@ import retrofit2.http.POST;
 public interface LoginWebService {
     @FormUrlEncoded
     @POST("login.php")
-    Call<DefaultResponse> login(@Field("username") String username, @Field("password") String password);
+    Call<LoginResponse> login(@Field("username") String username, @Field("password") String password);
 
 }

@@ -7,7 +7,7 @@ import java.util.HashMap;
  */
 
 public interface ISessionManager {
-    public void createLoginSession(String name, String email);
+    public void createLoginSession(String token);
     public HashMap<String, String> getUserDetails();
     public void checkLogin();
     public void logoutUser();

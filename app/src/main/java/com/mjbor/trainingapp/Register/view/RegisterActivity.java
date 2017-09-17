@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.mjbor.trainingapp.Login.view.LoginActivity;
@@ -25,8 +26,25 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterView
     @BindView(R.id.nameEditText) EditText nameEditText;
     @BindView(R.id.surnameEditText) EditText surnameEditText;
     @BindView(R.id.submitButton) Button submitButton;
+    @BindView(R.id.progress_bar) ProgressBar progressBar;
+
 
     private RegisterPresenter presenter;
+
+    @Override
+    public void setProgressBarVisible() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void setButtonText(String text) {
+        submitButton.setText(text);
+    }
+
+    @Override
+    public void setProgressBarInvisible() {
+        progressBar.setVisibility(View.GONE);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +70,7 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterView
 
 
         User user = new User(username, email, password, name, surname);
-        presenter.register(user);
+        presenter.registerClicked(user);
     }
 
     @Override

@@ -7,5 +7,22 @@
     <string name="name">Name</string>
     <string name="surname">Surname</string>
 
+    <string name="login">Login</string>
     <string name="submit">Register</string>
+
+
+    <string name="register_prompt">Don\'t have an account yet?</string>
+    <string name="register_here">Register here</string>
+
+    <string name="home_navigation_bar">Home</string>
+    <string name="progress_navigation_bar">Progress</string>
+    <string name="profile_navigation_bar">Profile</string>
+
+    <!-- PROFILE FRAGMENT -->
+    <string name="profile_about_me">About me</string>
+    <string name="profile_logout">Logout</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

@@ -4,6 +4,7 @@ import com.mjbor.trainingapp.Login.presenter.LoginPresenter;
 import com.mjbor.trainingapp.models.User;
 import com.mjbor.trainingapp.rest.ApiClient;
 import com.mjbor.trainingapp.rest.DefaultResponse;
+import com.mjbor.trainingapp.rest.LoginResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -13,41 +14,41 @@ import retrofit2.Response;
  * Created by mjbor on 8/17/2017.
  */
 
-public class LoginInteractor implements Callback<DefaultResponse> {
+public class LoginInteractor implements Callback<LoginResponse> {
 
     private LoginPresenter loginPresenter;
     private LoginWebService loginWebService;
 
     public LoginInteractor(LoginPresenter loginPresenter){
         this.loginPresenter = loginPresenter;
-
         loginWebService = ApiClient.getClient().create(LoginWebService.class);
     }
 
 
     @Override
-    public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
-        DefaultResponse defaultResponse  = response.body();
-        String serverMessage = defaultResponse.getMessage();
+    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+        LoginResponse loginResponse  = response.body();
+        String serverMessage = loginResponse.getMessage();
 
-        if(defaultResponse.isError()){
+        if(loginResponse.isError()){
             loginPresenter.onLoginFailure(serverMessage);
         }
 
         else{
-            loginPresenter.onLoginSuccess(serverMessage);
+            String token = loginResponse.getToken();
+            loginPresenter.onLoginSuccess(serverMessage, token);
         }
 
 
     }
 
     @Override
-    public void onFailure(Call<DefaultResponse> call, Throwable t) {
+    public void onFailure(Call<LoginResponse> call, Throwable t) {
         loginPresenter.onLoginFailure("Error connecting to server");
     }
 
     public void login(String username, String password){
-        Call<DefaultResponse> call = loginWebService.login(username, password);
+        Call<LoginResponse> call = loginWebService.login(username, password);
         call.enqueue(this);
     }
 
