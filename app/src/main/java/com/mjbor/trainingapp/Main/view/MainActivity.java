@@ -51,9 +51,12 @@ public class MainActivity extends AppCompatActivity implements IMainView,
         session = new SessionManager(this);
         presenter = new MainPresenter(this,session );
 
+
         //----------------------------------
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         viewPager.addOnPageChangeListener(this);
+        viewPager.setOffscreenPageLimit(2);
+
         setupViewPager(viewPager);
 
 
