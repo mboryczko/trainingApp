@@ -1,10 +1,7 @@
 package com.mjbor.trainingapp.Profile;
 
-import com.mjbor.trainingapp.Login.model.LoginWebService;
-import com.mjbor.trainingapp.Login.presenter.LoginPresenter;
 import com.mjbor.trainingapp.models.UserResponse;
 import com.mjbor.trainingapp.rest.ApiClient;
-import com.mjbor.trainingapp.rest.LoginResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;

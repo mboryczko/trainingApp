@@ -1,0 +1,21 @@
+package com.mjbor.trainingapp.Home;
+
+import com.mjbor.trainingapp.models.Exercises;
+import com.mjbor.trainingapp.models.Training;
+import com.mjbor.trainingapp.models.UserResponse;
+
+import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.POST;
+
+/**
+ * Created by mjbor on 9/19/2017.
+ */
+
+public interface HomeWebService {
+
+    @FormUrlEncoded
+    @POST("getLastTraining.php")
+    Call<Training> getLastTraining(@Field("token") String token);
+}

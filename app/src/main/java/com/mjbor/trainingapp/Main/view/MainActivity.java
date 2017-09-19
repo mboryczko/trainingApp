@@ -75,10 +75,13 @@ public class MainActivity extends AppCompatActivity implements IMainView,
         homeFragment = new HomeFragment();
         progressFragment = new ProgressFragment();
         profileFragment = new ProfileFragment();
+
         String token = session.getUserToken();
         Bundle bundle = new Bundle();
         bundle.putString(Constants.TOKEN, token);
         profileFragment.setArguments(bundle);
+        homeFragment.setArguments(bundle);
+
         adapter.addFragment(homeFragment);
         adapter.addFragment(progressFragment);
         adapter.addFragment(profileFragment);
