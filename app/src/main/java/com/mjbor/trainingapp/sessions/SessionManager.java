@@ -24,7 +24,7 @@ public class SessionManager implements ISessionManager {
     int PRIVATE_MODE = 0;
     private static final String PREF_NAME = "com.mjbor";
     private static final String IS_LOGIN = "IsLoggedIn";
-    public static final String KEY_NAME = "token";
+    public static final String TOKEN = "token";
 
     // Constructor
     public SessionManager(Context context) {
@@ -34,6 +34,9 @@ public class SessionManager implements ISessionManager {
     }
 
 
+    public String getUserToken(){
+        return pref.getString(TOKEN, null);
+    }
 
 
     /**
@@ -42,7 +45,7 @@ public class SessionManager implements ISessionManager {
     public void createLoginSession(String token){
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
-        editor.putString(KEY_NAME, token);
+        editor.putString(TOKEN, token);
 
         // commit changes
         editor.commit();

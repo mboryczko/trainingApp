@@ -17,6 +17,7 @@ import com.mjbor.trainingapp.Main.presenter.MainPresenter;
 import com.mjbor.trainingapp.Profile.ProfileFragment;
 import com.mjbor.trainingapp.Progress.ProgressFragment;
 import com.mjbor.trainingapp.R;
+import com.mjbor.trainingapp.Utils.Constants;
 import com.mjbor.trainingapp.sessions.ISessionManager;
 import com.mjbor.trainingapp.sessions.SessionManager;
 
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements IMainView,
 
         session = new SessionManager(this);
         presenter = new MainPresenter(this,session );
-        setUpSpecificFragment(new HomeFragment());
+        setUpSpecificFragment(new HomeFragment(), null);
 
 
         //----------------------------------
@@ -57,12 +58,20 @@ public class MainActivity extends AppCompatActivity implements IMainView,
 
 
     @Override
-    public void setUpSpecificFragment(Fragment fragment) {
+    public void setUpSpecificFragment(Fragment fragment, Bundle bundle) {
+
+        if(bundle != null)
+            fragment.setArguments(bundle);
+
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_NONE);
         fragmentTransaction.commit();
+
+
+
+
     }
 
     public void logoutClicked(View v){
@@ -86,15 +95,18 @@ public class MainActivity extends AppCompatActivity implements IMainView,
         switch (item.getItemId()) {
             case R.id.action_home:
                 item.setChecked(true);
-                setUpSpecificFragment(new HomeFragment());
+                setUpSpecificFragment(new HomeFragment(), null);
                 break;
             case R.id.action_progress:
                 item.setChecked(true);
-                setUpSpecificFragment(new ProgressFragment());
+                setUpSpecificFragment(new ProgressFragment(), null);
                 break;
             case R.id.action_profile:
                 item.setChecked(true);
-                setUpSpecificFragment(new ProfileFragment());
+                String token = session.getUserToken();
+                Bundle bundle = new Bundle();
+                bundle.putString(Constants.TOKEN, token);
+                setUpSpecificFragment(new ProfileFragment(), bundle);
                 break;
         }
         return false;

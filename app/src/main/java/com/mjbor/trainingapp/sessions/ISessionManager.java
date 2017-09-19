@@ -10,6 +10,7 @@ public interface ISessionManager {
     public void createLoginSession(String token);
     public HashMap<String, String> getUserDetails();
     public void checkLogin();
+    public String getUserToken();
     public void logoutUser();
     public boolean isLoggedIn();
 
