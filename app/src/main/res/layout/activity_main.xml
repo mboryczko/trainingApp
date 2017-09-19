@@ -8,11 +8,18 @@
 
 
 
-    <FrameLayout
+<!--    <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="200"/>
+        android:layout_weight="200"/>-->
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_weight="200"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
 

@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -25,12 +26,20 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements IMainView,
-        BottomNavigationView.OnNavigationItemSelectedListener{
+        BottomNavigationView.OnNavigationItemSelectedListener,
+        ViewPager.OnPageChangeListener{
 
     @BindView(R.id.bottom_navigation) BottomNavigationView bottomNavigationView;
+    @BindView(R.id.viewpager) ViewPager viewPager;
 
     private MainPresenter presenter;
     private ISessionManager session;
+
+    private HomeFragment homeFragment;
+    private ProgressFragment progressFragment;
+    private ProfileFragment profileFragment;
+
+    private MenuItem prevMenuItem;
 
 
     @Override
@@ -39,14 +48,14 @@ public class MainActivity extends AppCompatActivity implements IMainView,
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-
         session = new SessionManager(this);
         presenter = new MainPresenter(this,session );
-        setUpSpecificFragment(new HomeFragment(), null);
-
 
         //----------------------------------
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        viewPager.addOnPageChangeListener(this);
+        setupViewPager(viewPager);
+
 
     }
 
@@ -57,21 +66,20 @@ public class MainActivity extends AppCompatActivity implements IMainView,
     }
 
 
-    @Override
-    public void setUpSpecificFragment(Fragment fragment, Bundle bundle) {
-
-        if(bundle != null)
-            fragment.setArguments(bundle);
-
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_NONE);
-        fragmentTransaction.commit();
-
-
-
-
+    private void setupViewPager(ViewPager viewPager)
+    {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        homeFragment = new HomeFragment();
+        progressFragment = new ProgressFragment();
+        profileFragment = new ProfileFragment();
+        String token = session.getUserToken();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.TOKEN, token);
+        profileFragment.setArguments(bundle);
+        adapter.addFragment(homeFragment);
+        adapter.addFragment(progressFragment);
+        adapter.addFragment(profileFragment);
+        viewPager.setAdapter(adapter);
     }
 
     public void logoutClicked(View v){
@@ -94,21 +102,39 @@ public class MainActivity extends AppCompatActivity implements IMainView,
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_home:
-                item.setChecked(true);
-                setUpSpecificFragment(new HomeFragment(), null);
+                viewPager.setCurrentItem(0);
                 break;
             case R.id.action_progress:
-                item.setChecked(true);
-                setUpSpecificFragment(new ProgressFragment(), null);
+                viewPager.setCurrentItem(1);
                 break;
             case R.id.action_profile:
-                item.setChecked(true);
-                String token = session.getUserToken();
-                Bundle bundle = new Bundle();
-                bundle.putString(Constants.TOKEN, token);
-                setUpSpecificFragment(new ProfileFragment(), bundle);
+                viewPager.setCurrentItem(2);
                 break;
         }
         return false;
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        if (prevMenuItem != null) {
+            prevMenuItem.setChecked(false);
+        }
+        else
+        {
+            bottomNavigationView.getMenu().getItem(0).setChecked(false);
+        }
+
+        bottomNavigationView.getMenu().getItem(position).setChecked(true);
+        prevMenuItem = bottomNavigationView.getMenu().getItem(position);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }

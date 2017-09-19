@@ -11,6 +11,6 @@ public interface IMainView {
 
     public void toast(String message);
 
-    public void setUpSpecificFragment(Fragment fragment, Bundle bundle);
+    //public void setUpSpecificFragment(Fragment fragment, Bundle bundle);
     public void onLogout();
 }
