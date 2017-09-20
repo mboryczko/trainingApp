@@ -1,6 +1,5 @@
 package com.mjbor.trainingapp.Home;
 
-import com.mjbor.trainingapp.models.Exercises;
 import com.mjbor.trainingapp.models.Training;
 import com.mjbor.trainingapp.rest.ApiClient;
 

@@ -63,7 +63,7 @@
         android:id="@+id/lastTrainingCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="6dp"
+        app:cardCornerRadius="2dp"
         app:cardElevation="6dp"
         app:cardUseCompatPadding="true"
         app:contentPadding="20dp">

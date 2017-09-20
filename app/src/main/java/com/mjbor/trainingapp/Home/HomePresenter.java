@@ -1,7 +1,6 @@
 package com.mjbor.trainingapp.Home;
 
-import com.mjbor.trainingapp.Profile.ProfileInteractor;
-import com.mjbor.trainingapp.models.Exercises;
+import com.mjbor.trainingapp.models.Exercise;
 import com.mjbor.trainingapp.models.Training;
 
 import java.util.ArrayList;
@@ -39,7 +38,7 @@ public class HomePresenter {
     public void onTrainingFetchedSuccesfully(Training response){
         List<String> list = new ArrayList<>();
 
-        for(Exercises e : response.getExercises()){
+        for(Exercise e : response.getExercises()){
             String name = e.getName();
             String weight = e.getWeight();
             String reps = "";

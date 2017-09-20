@@ -30,8 +30,6 @@ public class HomeFragment extends Fragment implements IHomeFragment {
 
     public HomeFragment() {
         // Required empty public constructor
-
-
     }
 
     @Override
@@ -43,8 +41,7 @@ public class HomeFragment extends Fragment implements IHomeFragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
         // Inflate the layout for this fragment
@@ -59,21 +56,18 @@ public class HomeFragment extends Fragment implements IHomeFragment {
 
     @Override
     public void setEx2(String text) {
-
         ex2.setVisibility(View.VISIBLE);
         ex2.setText(text);
     }
 
     @Override
     public void setEx3(String text) {
-
         ex3.setVisibility(View.VISIBLE);
         ex3.setText(text);
     }
 
     @Override
     public void setEx4(String text) {
-
         ex4.setVisibility(View.VISIBLE);
         ex4.setText(text);
     }

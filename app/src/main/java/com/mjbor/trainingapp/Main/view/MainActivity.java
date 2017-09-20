@@ -18,6 +18,7 @@ import com.mjbor.trainingapp.Main.presenter.MainPresenter;
 import com.mjbor.trainingapp.Profile.ProfileFragment;
 import com.mjbor.trainingapp.Progress.ProgressFragment;
 import com.mjbor.trainingapp.R;
+import com.mjbor.trainingapp.Training.view.TrainingActivity;
 import com.mjbor.trainingapp.Utils.Constants;
 import com.mjbor.trainingapp.sessions.ISessionManager;
 import com.mjbor.trainingapp.sessions.SessionManager;
@@ -62,6 +63,15 @@ public class MainActivity extends AppCompatActivity implements IMainView,
 
     }
 
+    public void trainingAClicked(View v){
+        Intent i = new Intent(this, TrainingActivity.class);
+        //TODO
+        i.putExtra(Constants.ADDITIONAL_EXERCISES, 2);
+        i.putExtra(Constants.ADDITIONAL_EX1_SETS, 4);
+        i.putExtra(Constants.ADDITIONAL_EX2_SETS, 2);
+        startActivity(i);
+
+    }
 
     @Override
     public void toast(String message) {

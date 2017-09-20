@@ -25,14 +25,14 @@ public class Training
         this.message = message;
     }
 
-    private Exercises[] exercises;
+    private Exercise[] exercises;
 
-    public Exercises[] getExercises ()
+    public Exercise[] getExercises ()
     {
         return exercises;
     }
 
-    public void setExercises (Exercises[] exercises)
+    public void setExercises (Exercise[] exercises)
     {
         this.exercises = exercises;
     }

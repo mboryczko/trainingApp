@@ -31,7 +31,9 @@
     <string name="home_training_b">Training B</string>
     <string name="home_last_training">Last training</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- TRAINING A -->
+    <string name="a_training_ex1">Squat</string>
+    <string name="a_training_ex2">Bench Press</string>
+    <string name="a_training_ex3">Barbell Row</string>
 
 </resources>

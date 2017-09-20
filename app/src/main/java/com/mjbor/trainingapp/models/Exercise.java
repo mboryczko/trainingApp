@@ -4,13 +4,19 @@ package com.mjbor.trainingapp.models;
  * Created by mjbor on 9/19/2017.
  */
 
-public class Exercises
+public class Exercise
 {
     private String[] reps;
 
     private String weight;
 
     private String name;
+
+    public Exercise(String[] reps, String weight, String name) {
+        this.reps = reps;
+        this.weight = weight;
+        this.name = name;
+    }
 
     public String[] getReps ()
     {
