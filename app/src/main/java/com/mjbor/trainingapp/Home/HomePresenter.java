@@ -60,6 +60,6 @@ public class HomePresenter {
         view.setEx1(list.get(0));
         view.setEx2(list.get(1));
         view.setEx3(list.get(2));
-        view.setEx4(list.get(3));
+        //view.setEx4(list.get(3));
     }
 }

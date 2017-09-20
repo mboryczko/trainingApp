@@ -6,16 +6,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.mjbor.trainingapp.Training.view.TrainingActivity"
-    android:weightSum="1"
+    android:orientation="vertical"
     >
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
+        android:layout_height="0dp"
+        android:layout_weight="10">
 
     </android.support.v7.widget.RecyclerView>
+
+
+    <Button
+        android:id="@+id/saveTrainingButton"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:onClick="saveClicked"
+        android:textStyle="bold"
+        android:textColor="@color/color1"
+        android:background="@color/color3"
+        android:text="@string/save"
+        android:padding="20dp"/>
 
 </LinearLayout>

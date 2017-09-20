@@ -12,10 +12,15 @@ public class Exercise
 
     private String name;
 
+
     public Exercise(String[] reps, String weight, String name) {
         this.reps = reps;
         this.weight = weight;
         this.name = name;
+    }
+
+    public void setReps(int position, String reps){
+        this.reps[position] = reps;
     }
 
     public String[] getReps ()

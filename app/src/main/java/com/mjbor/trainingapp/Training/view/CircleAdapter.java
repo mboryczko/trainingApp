@@ -2,6 +2,7 @@ package com.mjbor.trainingapp.Training.view;
 
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,15 +20,24 @@ import java.util.List;
  * Created by mjbor on 9/20/2017.
  */
 
-public class CircleAdapter extends  RecyclerView.Adapter<CircleAdapter.ViewHolder>
-implements RecyclerViewClickListener{
+public class CircleAdapter extends  RecyclerView.Adapter<CircleAdapter.ViewHolder>{
 
     private List<Circle> circles;
+    private int row;
+
+    public List<Circle> getCircles() {
+        return circles;
+    }
+
+    public void setCircles(List<Circle> circles) {
+        this.circles = circles;
+    }
 
     private static RecyclerViewClickListener itemListener;
 
-    public CircleAdapter(List<Circle> circles, RecyclerViewClickListener itemListener) {
+    public CircleAdapter(List<Circle> circles,RecyclerViewClickListener itemListener, int row) {
         this.circles = circles;
+        this.row = row;
         this.itemListener = itemListener;
     }
 
@@ -62,29 +72,9 @@ implements RecyclerViewClickListener{
 
     }
 
-    @Override
-    public void recyclerViewListClicked(View v, int position){
-        Circle circle = circles.get(position);
-        int value = circle.getValue();
-        if(value == 0){
-            circle.setColor(Color.RED);
-            circle.setValue(5);
-        }
-
-        if(value == 1){
-            circle.setValue(0);
-            circle.setColor(Color.GRAY);
-        }
-
-        if(value > 1){
-            circle.setValue(--value);
-        }
-
-    }
 
 
-
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder /*implements View.OnClickListener*/{
         private ImageView circle;
         private TextView number;
 
@@ -93,13 +83,66 @@ implements RecyclerViewClickListener{
             circle = (ImageView) itemView.findViewById(R.id.circleImageView);
             number = (TextView) itemView.findViewById(R.id.numberTextView);
 
-            itemView.setOnClickListener(this);
+
+            circle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getLayoutPosition();
+
+
+                    Circle circle = circles.get(position);
+                    int value = circle.getValue();
+                    int startValue = circle.getStartValue();
+                    int newValue = -1;
+
+                    if(value == 0){
+                        circle.setColor(Color.RED);
+                        circle.setValue(startValue);
+                        newValue = startValue;
+                    }
+
+                    if(value == 1){
+                        circle.setValue(0);
+                        circle.setColor(Color.GRAY);
+                        newValue = 0;
+                    }
+
+                    if(value > 1){
+                        circle.setValue(--value);
+                        newValue = value;
+                    }
+
+                    onBindViewHolder(ViewHolder.this, position);
+                    itemListener.recyclerViewListClicked(row, getLayoutPosition(), Integer.toString(newValue));
+                }
+            });
+//int row, int position, String value
+
+
         }
 
-        @Override
+        /*@Override
         public void onClick(View view) {
-            itemListener.recyclerViewListClicked(view, this.getLayoutPosition());
-        }
+            //itemListener.recyclerViewListClicked(view, this.getLayoutPosition());
+
+            int position = getLayoutPosition();
+
+            Circle circle = circles.get(position);
+            int value = circle.getValue();
+            if(value == 0){
+                circle.setColor(Color.RED);
+                circle.setValue(5);
+            }
+
+            if(value == 1){
+                circle.setValue(0);
+                circle.setColor(Color.GRAY);
+            }
+
+            if(value > 1){
+                circle.setValue(--value);
+            }
+        }*/
     }
 
 }

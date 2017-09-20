@@ -21,14 +21,26 @@ import java.util.List;
  * Created by mjbor on 9/20/2017.
  */
 
-public class TrainingAdapter extends RecyclerView.Adapter<TrainingAdapter.ViewHolder> {
+public class TrainingAdapter extends RecyclerView.Adapter<TrainingAdapter.ViewHolder>
+        implements RecyclerViewClickListener {
 
     private List<Exercise> exercises;
+    private List<CircleAdapter> circleAdapterList;
+
+    public List<CircleAdapter> getCircleAdapterList() {
+        return circleAdapterList;
+    }
+
+
+
     private Context context;
 
     public TrainingAdapter(List<Exercise> exercises, Context context) {
         this.exercises = exercises;
         this.context = context;
+
+        circleAdapterList = new ArrayList<>();
+
     }
 
     @Override
@@ -55,7 +67,7 @@ public class TrainingAdapter extends RecyclerView.Adapter<TrainingAdapter.ViewHo
 
         List<Circle> circles = new ArrayList<>();
         for(String s : reps){
-            circles.add(new Circle(Color.GRAY, 0));
+            circles.add(new Circle(Color.LTGRAY, 0, Integer.parseInt(s)));
         }
 
         holder.circlesRecyclerView.setHasFixedSize(true);
@@ -63,7 +75,8 @@ public class TrainingAdapter extends RecyclerView.Adapter<TrainingAdapter.ViewHo
         llm.setOrientation(LinearLayoutManager.HORIZONTAL);
         holder.circlesRecyclerView.setLayoutManager(llm);
 
-        CircleAdapter adapter = new CircleAdapter(circles, this);
+        CircleAdapter adapter = new CircleAdapter(circles, this, position);
+        circleAdapterList.add(adapter);
         holder.circlesRecyclerView.setAdapter(adapter);
 
     }
@@ -71,6 +84,11 @@ public class TrainingAdapter extends RecyclerView.Adapter<TrainingAdapter.ViewHo
     @Override
     public int getItemCount() {
         return exercises.size();
+    }
+
+    @Override
+    public void recyclerViewListClicked(int row, int position, String value) {
+        exercises.get(row).setReps(position, value);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
