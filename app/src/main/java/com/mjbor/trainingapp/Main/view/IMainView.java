@@ -13,4 +13,6 @@ public interface IMainView {
 
     //public void setUpSpecificFragment(Fragment fragment, Bundle bundle);
     public void onLogout();
+
+    public void killApp();
 }

@@ -9,6 +9,15 @@ public class Training
     private boolean error;
     private String message;
     private String token;
+    private int type;
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 
     public String getToken() {
         return token;

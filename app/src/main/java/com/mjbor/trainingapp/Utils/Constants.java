@@ -7,6 +7,10 @@ package com.mjbor.trainingapp.Utils;
 public class Constants {
     public static final String TOKEN = "token";
 
+    public static final String WEIGHT = "weight";
+
+    public static final String CURRENT_SCREEN = "screen";
+
 
     public static final String ADDITIONAL_EXERCISES = "additional";
     public static final String ADDITIONAL_EX1_SETS = "sets1";

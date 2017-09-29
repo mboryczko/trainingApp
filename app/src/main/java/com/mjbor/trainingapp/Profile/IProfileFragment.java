@@ -13,7 +13,11 @@ public interface IProfileFragment {
     public void setProfileSurname(String surname);
     public void setProfileEmail(String email);
 
+    public void setBestResults(String text);
+
     public void setCollapsingTootlbarTitle(String title);
+
+    public void refreshData();
 
 
 

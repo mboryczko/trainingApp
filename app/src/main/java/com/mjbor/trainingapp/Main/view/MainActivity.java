@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -28,10 +30,15 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements IMainView,
         BottomNavigationView.OnNavigationItemSelectedListener,
-        ViewPager.OnPageChangeListener{
+        ViewPager.OnPageChangeListener,
+        SwipeRefreshLayout.OnRefreshListener {
 
-    @BindView(R.id.bottom_navigation) BottomNavigationView bottomNavigationView;
-    @BindView(R.id.viewpager) ViewPager viewPager;
+    @BindView(R.id.bottom_navigation)
+    BottomNavigationView bottomNavigationView;
+    @BindView(R.id.viewpager)
+    ViewPager viewPager;
+    public @BindView(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     private MainPresenter presenter;
     private ISessionManager session;
@@ -41,16 +48,19 @@ public class MainActivity extends AppCompatActivity implements IMainView,
     private ProfileFragment profileFragment;
 
     private MenuItem prevMenuItem;
+    private int currentPage;
+    private ViewPagerAdapter adapter;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+
         session = new SessionManager(this);
-        presenter = new MainPresenter(this,session );
+        presenter = new MainPresenter(this, session);
 
 
         //----------------------------------
@@ -59,11 +69,13 @@ public class MainActivity extends AppCompatActivity implements IMainView,
         viewPager.setOffscreenPageLimit(2);
 
         setupViewPager(viewPager);
+        swipeRefreshLayout.setOnRefreshListener(this);
 
 
     }
 
-    public void trainingAClicked(View v){
+
+    public void trainingClicked(View v) {
         Intent i = new Intent(this, TrainingActivity.class);
         //TODO
         i.putExtra(Constants.ADDITIONAL_EXERCISES, 2);
@@ -74,14 +86,47 @@ public class MainActivity extends AppCompatActivity implements IMainView,
     }
 
     @Override
+    public void onRefresh() {
+
+        Log.e(this.getClass().toString(), "onRefresh");
+        Log.e(this.getClass().toString(), "onRefresh");
+        //setupViewPager(viewPager);
+        switch(currentPage){
+            case 0:
+                homeFragment.refreshData();
+                break;
+            case 1:
+                //progressFragment
+                break;
+            case 2:
+                profileFragment.refreshData();
+                break;
+
+        }
+
+        swipeRefreshLayout.setRefreshing(false);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void killApp() {
+        this.finishAffinity();
+    }
+
+    @Override
+    public void onBackPressed() {
+        presenter.onBackPressed();
+
+    }
+
+    @Override
     public void toast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
 
-    private void setupViewPager(ViewPager viewPager)
-    {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+    private void setupViewPager(ViewPager viewPager) {
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
         homeFragment = new HomeFragment();
         progressFragment = new ProgressFragment();
         profileFragment = new ProfileFragment();
@@ -98,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements IMainView,
         viewPager.setAdapter(adapter);
     }
 
-    public void logoutClicked(View v){
+    public void logoutClicked(View v) {
         presenter.logoutClicked();
     }
 
@@ -139,18 +184,23 @@ public class MainActivity extends AppCompatActivity implements IMainView,
     public void onPageSelected(int position) {
         if (prevMenuItem != null) {
             prevMenuItem.setChecked(false);
-        }
-        else
-        {
+        } else {
             bottomNavigationView.getMenu().getItem(0).setChecked(false);
         }
 
         bottomNavigationView.getMenu().getItem(position).setChecked(true);
         prevMenuItem = bottomNavigationView.getMenu().getItem(position);
+        currentPage = position;
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
+        enableDisableSwipeRefresh(state == ViewPager.SCROLL_STATE_IDLE);
+    }
 
+    private void enableDisableSwipeRefresh(boolean enable) {
+        if (swipeRefreshLayout != null) {
+            swipeRefreshLayout.setEnabled(enable);
+        }
     }
 }

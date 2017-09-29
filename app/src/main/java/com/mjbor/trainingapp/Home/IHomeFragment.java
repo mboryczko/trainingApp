@@ -7,8 +7,7 @@ package com.mjbor.trainingapp.Home;
 public interface IHomeFragment {
 
     public void setEx1(String text);
-    public void setEx2(String text);
-    public void setEx3(String text);
-    public void setEx4(String text);
+
+    public void refreshData();
 
 }

@@ -85,5 +85,10 @@ public class LoginActivity extends AppCompatActivity implements ILoginView {
         startActivity(i);
     }
 
+    public void tutorialClicked(View v){
+
+
+    }
+
 
 }

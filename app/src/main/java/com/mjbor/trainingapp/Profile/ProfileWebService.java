@@ -1,5 +1,6 @@
 package com.mjbor.trainingapp.Profile;
 
+import com.mjbor.trainingapp.models.Training;
 import com.mjbor.trainingapp.models.UserResponse;
 
 import retrofit2.Call;
@@ -16,4 +17,9 @@ public interface ProfileWebService {
     @FormUrlEncoded
     @POST("getUserInfo.php")
     Call<UserResponse> getUserInfo(@Field("token") String token);
+
+    @FormUrlEncoded
+    @POST("getUserInfo.php")
+    Call<Training> getUserBestResults(@Field("token") String token);
+
 }

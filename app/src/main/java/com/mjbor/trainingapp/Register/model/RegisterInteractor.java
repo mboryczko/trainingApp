@@ -25,8 +25,8 @@ public class RegisterInteractor implements Callback<DefaultResponse> {
     }
 
 
-    public void register(User user) {
-        Call<DefaultResponse> call = registerWebService.registration(user);
+    public void register(RegisterModel registerModel) {
+        Call<DefaultResponse> call = registerWebService.registration(registerModel);
         call.enqueue(this);
     }
 

@@ -103,7 +103,7 @@ public class CircleAdapter extends  RecyclerView.Adapter<CircleAdapter.ViewHolde
 
                     if(value == 1){
                         circle.setValue(0);
-                        circle.setColor(Color.GRAY);
+                        circle.setColor(Color.rgb(205, 205, 205));
                         newValue = 0;
                     }
 
@@ -113,10 +113,10 @@ public class CircleAdapter extends  RecyclerView.Adapter<CircleAdapter.ViewHolde
                     }
 
                     onBindViewHolder(ViewHolder.this, position);
-                    itemListener.recyclerViewListClicked(row, getLayoutPosition(), Integer.toString(newValue));
+                    itemListener.recyclerViewListClicked(row, getLayoutPosition(), newValue);
                 }
             });
-//int row, int position, String value
+
 
 
         }

@@ -1,11 +1,9 @@
 package com.mjbor.trainingapp.Register.model;
 
-import com.mjbor.trainingapp.models.User;
 import com.mjbor.trainingapp.rest.DefaultResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
 import retrofit2.http.POST;
 
 /**
@@ -14,8 +12,7 @@ import retrofit2.http.POST;
 
 public interface RegisterWebService {
 
-    @POST("/register.php")
-    Call<DefaultResponse> registration(@Body User user);
-
+    @POST("/newRegister.php")
+    Call<DefaultResponse> registration(@Body RegisterModel registerModel);
 
 }

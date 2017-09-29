@@ -10,6 +10,7 @@
     <string name="login">Login</string>
     <string name="submit">Register</string>
     <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
 
 
     <string name="register_prompt">Don\'t have an account yet?</string>
@@ -20,7 +21,7 @@
     <string name="profile_navigation_bar">Profile</string>
 
     <!-- PROFILE FRAGMENT -->
-    <string name="profile_about_me">About me</string>
+    <string name="profile_best_results">Best results</string>
     <string name="profile_logout">Logout</string>
     <string name="profile_username">Username</string>
     <string name="profile_email">Email</string>
@@ -28,7 +29,7 @@
     <string name="profile_surname">Surname</string>
 
     <!-- HOME FRAGMENT -->
-    <string name="home_training_a">Training A</string>
+    <string name="home_training">Start training</string>
     <string name="home_training_b">Training B</string>
     <string name="home_last_training">Last training</string>
 
@@ -36,5 +37,34 @@
     <string name="a_training_ex1">Squat</string>
     <string name="a_training_ex2">Bench Press</string>
     <string name="a_training_ex3">Barbell Row</string>
+
+
+    <string name="history_fragment_title">Tell us a little bit</string>
+    <string name="history_fragment_info">
+        Please provide your best results for each exercise. Application will
+        generate training suited to your fitness level.
+    </string>
+
+
+    <string name="title_activity_welcome">Home Screen</string>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+
+    <string name="slide_1_title">Hello Food!</string>
+    <string name="slide_1_desc">The easiest way to order food from your favourite restaurant!</string>
+
+    <string name="slide_2_title">Movie Tickets</string>
+    <string name="slide_2_desc">Book movie tickets for your family and friends!</string>
+
+    <string name="slide_3_title">Great Discounts</string>
+    <string name="slide_3_desc">Best discounts on every single service we offer!</string>
+
+    <string name="slide_4_title">World Travel</string>
+    <string name="slide_4_desc">Book tickets of any transportation and travel the world!</string>
+
+    <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
+    <string name="play_again">Play Again</string>
+
 
 </resources>

@@ -28,7 +28,7 @@ public class ProfileInteractor implements Callback<UserResponse> {
         UserResponse userResponse  = response.body();
         String serverMessage = userResponse.getMessage();
 
-        if(userResponse.isError()){
+        if(userResponse.getError()){
             presenter.onUserDataFetchedFailed(serverMessage);
         }
 

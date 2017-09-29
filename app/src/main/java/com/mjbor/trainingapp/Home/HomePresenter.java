@@ -22,7 +22,7 @@ public class HomePresenter {
         this.interactor = new HomeInteractor(this);
         this.token = token;
 
-        getLastTrainingInfo(token);
+        getLastTrainingInfo();
 
     }
 
@@ -30,36 +30,69 @@ public class HomePresenter {
         view.setEx1(response.getMessage());
     }
 
-    public void getLastTrainingInfo(String token){
+    public void getLastTrainingInfo(){
         interactor.getLastTrainingInfo(token);
     }
 
 
     public void onTrainingFetchedSuccesfully(Training response){
-        List<String> list = new ArrayList<>();
+
+
+        String text = "";
 
         for(Exercise e : response.getExercises()){
             String name = e.getName();
-            String weight = e.getWeight();
+            double weight = e.getWeight();
             String reps = "";
-            for(String rep : e.getReps()){
+            for(int rep : e.getReps()){
                 reps += rep + "/";
             }
 
-            if(reps.equals("5/5/5/5/5/"))
-                reps = "5x5";
+            reps = formatSeries(reps);
 
-            list.add(name + " " + reps + " " + weight + " kg");
+
+            text += name + " " + reps + " " + weight + " kg\n";
         }
 
-        callViewMethods(list);
+        view.setEx1(text);
     }
 
 
-    public void callViewMethods(List<String> list){
-        view.setEx1(list.get(0));
-        view.setEx2(list.get(1));
-        view.setEx3(list.get(2));
-        //view.setEx4(list.get(3));
+    public String formatSeries(String text){
+        int appearances = 0;
+
+        String firstNumber = getFirstNumber(text);
+        String currentNumber = "";
+
+        for(char c : text.toCharArray()){
+            if(c != '/') {
+                currentNumber += c;
+            }
+
+            else{
+                if(!currentNumber.equals(firstNumber)){
+                    return text;
+                }
+                appearances++;
+                currentNumber = "";
+            }
+        }
+
+        return ""+appearances+"x"+firstNumber;
     }
+
+    public String getFirstNumber(String text){
+        String firstNumber = "";
+        for(char c : text.toCharArray()){
+            if(c != '/')
+                firstNumber += c;
+            else
+                return firstNumber;
+        }
+
+        return firstNumber;
+    }
+
+
+
 }

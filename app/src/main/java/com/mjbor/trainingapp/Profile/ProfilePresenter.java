@@ -3,6 +3,7 @@ package com.mjbor.trainingapp.Profile;
 import android.widget.Button;
 
 import com.mjbor.trainingapp.R;
+import com.mjbor.trainingapp.models.Exercise;
 import com.mjbor.trainingapp.models.User;
 import com.mjbor.trainingapp.models.UserResponse;
 import com.mjbor.trainingapp.sessions.ISessionManager;
@@ -24,10 +25,10 @@ public class ProfilePresenter {
         this.view = view;
         this.interactor = new ProfileInteractor(this);
         this.token = token;
-        getUserInfo(token);
+        getUserInfo();
     }
 
-    public void getUserInfo(String token){
+    public void getUserInfo(){
         interactor.getUserInfo(token);
     }
 
@@ -37,9 +38,20 @@ public class ProfilePresenter {
         view.setProfileName(u.getName());
         view.setProfileSurname(u.getSurname());
         view.setProfileEmail(u.getEmail());
+        view.setBestResults(prepareListOfBestResults(u.getExercises()));
 
         view.setCollapsingTootlbarTitle(u.getUsername());
 
+    }
+
+
+    public String prepareListOfBestResults(Exercise[] exercises){
+        String list = "";
+        for(Exercise e : exercises){
+            list += "• " + e.getName() + " - " +  e.getWeight() + "\n";
+        }
+
+        return list;
     }
 
     public void onUserDataFetchedFailed(String serverMssage){

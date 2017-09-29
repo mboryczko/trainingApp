@@ -1,9 +1,14 @@
 package com.mjbor.trainingapp.Register.presenter;
 
 import com.mjbor.trainingapp.Register.model.RegisterInteractor;
+import com.mjbor.trainingapp.Register.model.RegisterModel;
 import com.mjbor.trainingapp.Register.view.IRegisterView;
+import com.mjbor.trainingapp.models.Exercise;
+import com.mjbor.trainingapp.models.Training;
 import com.mjbor.trainingapp.models.User;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,21 +19,82 @@ import java.util.regex.Pattern;
 public class RegisterPresenter {
 
     private IRegisterView view;
-    private RegisterInteractor registerInteractor;
+    private RegisterInteractor interactor;
+
+    private User user;
 
     public RegisterPresenter(IRegisterView view){
         this.view = view;
-        this.registerInteractor = new RegisterInteractor(this);
+        this.interactor = new RegisterInteractor(this);
+    }
+
+
+    public void userHistoryProvided(List<Double> records){
+        List<Exercise> exercises1 = new ArrayList<>();
+        List<Exercise> exercises2 = new ArrayList<>();
+
+        records = generateFirstTrainingValues(records);
+
+        String[] exercisesArray = {"Squat", "Bench press", "Barbell row", "Over head press", "Deadlift"};
+
+        exercises1.add(new Exercise(new int[]{5,5,5,5,5} , records.get(0), "Squat", 5));
+        exercises1.add(new Exercise(new int[]{5,5,5,5,5} , records.get(1), "Bench press", 5));
+        exercises1.add(new Exercise(new int[]{5,5,5,5,5} , records.get(2), "Barbell row",  5));
+
+        exercises2.add(new Exercise(new int[]{5,5,5,5,5} , records.get(1), "Squat",  5));
+        exercises2.add(new Exercise(new int[]{5,5,5,5,5} , records.get(3), "Over head press", 5));
+        exercises2.add(new Exercise(new int[]{5,5,5,5,5} , records.get(4), "Deadlift", 5));
+
+
+        Training training1 = new Training();
+        Exercise[] tab1 = exercises1.toArray(new Exercise[exercises1.size()]);
+        training1.setExercises(tab1);
+
+
+        Training training2 = new Training();
+        Exercise[] tab2 = exercises2.toArray(new Exercise[exercises2.size()]);
+        training2.setExercises(tab2);
+
+        RegisterModel registerModel = new RegisterModel(training1, training2, user);
+
+        interactor.register(registerModel);
+        view.setButtonText("");
+        view.setProgressBarVisible();
+
+    }
+
+    public List<Double> generateFirstTrainingValues(List<Double> list){
+        double dividedAndRounded;
+        List<Double> result = new ArrayList<>();
+
+        for(double d : list){
+            d = d/2;
+            dividedAndRounded = (int)(d/2.5);
+            dividedAndRounded *= 2.5;
+            result.add(dividedAndRounded);
+        }
+
+        return result;
     }
 
     public void registerClicked(User user){
         if(validate(user)){
-            registerInteractor.register(user);
-            view.setButtonText("");
-            view.setProgressBarVisible();
+            this.user = user;
+            view.promptRecordPopup();
         }
 
+
+
+
+/*        if(validate(user)){
+            interactor.register(user);
+            view.setButtonText("");
+            view.setProgressBarVisible();
+        }*/
+
     }
+
+
 
     public boolean validate(User user){
 

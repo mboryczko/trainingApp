@@ -205,18 +205,17 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
                         android:paddingTop="10dp"
-                        android:text="@string/profile_about_me"
+                        android:text="@string/profile_best_results"
                         android:textSize="15dp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/hobbiesTextView"
+                        android:id="@+id/bestResultsTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:lineSpacingMultiplier="1.5"
                         android:padding="12dp"
                         android:textSize="13dp"
-                        android:text="Lorem ipsum dolor sit amet,ue labores ei mei. Te cum erat illudLorem ipsum dolor sit amet,ue labores ei mei. Te cum erat illudLorem ipsum dolor sit amet,ue labores ei mei. Te cum erat illudLorem ipsum dolor sit amet,ue labores ei mei. Te cum erat illud"
                         />
 
 

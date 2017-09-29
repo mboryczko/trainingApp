@@ -1,6 +1,7 @@
 package com.mjbor.trainingapp.Training.model;
 
 import com.mjbor.trainingapp.models.Training;
+import com.mjbor.trainingapp.rest.DefaultResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -15,5 +16,9 @@ import retrofit2.http.POST;
 public interface TrainingWebService {
 
     @POST("createTraining.php")
-    Call<Training> createTraining(@Body Training training);
+    Call<DefaultResponse> createTraining(@Body Training training);
+
+    @FormUrlEncoded
+    @POST("getNextTraining.php")
+    Call<Training> getNextTraining(@Field("token") String token);
 }

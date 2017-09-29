@@ -3,15 +3,18 @@ package com.mjbor.trainingapp.Profile;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mjbor.trainingapp.Login.view.LoginActivity;
+import com.mjbor.trainingapp.Main.model.MainWebService;
 import com.mjbor.trainingapp.Main.view.MainActivity;
 import com.mjbor.trainingapp.R;
 import com.mjbor.trainingapp.Utils.Constants;
@@ -25,23 +28,25 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProfileFragment extends Fragment implements IProfileFragment{
+public class ProfileFragment extends Fragment implements IProfileFragment,
+ AppBarLayout.OnOffsetChangedListener{
 
-    private ProfilePresenter presenter;
+    public ProfilePresenter presenter;
+
+
 
     @BindView(R.id.userNameTextView) TextView usernameTextView;
     @BindView(R.id.nameTextView) TextView nameTextView;
     @BindView(R.id.surnameTextView) TextView surnameTextView;
     @BindView(R.id.emailTextView) TextView emailTextView;
+    @BindView(R.id.bestResultsTextView) TextView bestResultsTextView;
     @BindView(R.id.profileImage) FloatingActionButton floatingActionButton;
 
     @BindView(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingToolbarLayout;
-
-
+    @BindView(R.id.app_bar_layout) AppBarLayout appBarLayout;
 
     public ProfileFragment() {
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -50,6 +55,29 @@ public class ProfileFragment extends Fragment implements IProfileFragment{
         String token = getArguments().getString(Constants.TOKEN, null);
         this.presenter = new ProfilePresenter(this, token);
 
+    }
+
+
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+        ((MainActivity)getActivity()).swipeRefreshLayout.setEnabled(verticalOffset == 0);
+    }
+
+    @Override
+    public void refreshData() {
+        presenter.getUserInfo();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        appBarLayout.addOnOffsetChangedListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        appBarLayout.removeOnOffsetChangedListener(this);
     }
 
     @Override
@@ -82,6 +110,11 @@ public class ProfileFragment extends Fragment implements IProfileFragment{
         return view;
     }
 
+
+    @Override
+    public void setBestResults(String text) {
+        bestResultsTextView.setText(text);
+    }
 
     @Override
     public void setCollapsingTootlbarTitle(String title) {

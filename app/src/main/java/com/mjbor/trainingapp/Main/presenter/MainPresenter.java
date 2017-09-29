@@ -1,6 +1,7 @@
 package com.mjbor.trainingapp.Main.presenter;
 
 import android.app.Fragment;
+import android.os.Handler;
 
 
 import com.mjbor.trainingapp.Main.model.MainInteractor;
@@ -17,6 +18,7 @@ public class MainPresenter {
     private IMainView view;
     private MainInteractor mainInteractor;
     private ISessionManager sessionManager;
+    private boolean doubleBackToExitPressedOnce = false;
 
     private boolean requestSent;
 
@@ -30,7 +32,24 @@ public class MainPresenter {
     public void logoutClicked(){
         sessionManager.logoutUser();
         view.onLogout();
+    }
 
+    public void onBackPressed(){
+        if (doubleBackToExitPressedOnce) {
+            view.killApp();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        view.toast("Please click BACK again to exit");
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 
 

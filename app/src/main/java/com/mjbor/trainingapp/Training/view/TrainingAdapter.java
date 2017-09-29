@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +15,13 @@ import android.widget.TextView;
 import com.mjbor.trainingapp.R;
 import com.mjbor.trainingapp.Training.model.Circle;
 import com.mjbor.trainingapp.models.Exercise;
+import com.mjbor.trainingapp.models.Training;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.OnTextChanged;
 
 /**
  * Created by mjbor on 9/20/2017.
@@ -26,13 +32,6 @@ public class TrainingAdapter extends RecyclerView.Adapter<TrainingAdapter.ViewHo
 
     private List<Exercise> exercises;
     private List<CircleAdapter> circleAdapterList;
-
-    public List<CircleAdapter> getCircleAdapterList() {
-        return circleAdapterList;
-    }
-
-
-
     private Context context;
 
     public TrainingAdapter(List<Exercise> exercises, Context context) {
@@ -60,14 +59,15 @@ public class TrainingAdapter extends RecyclerView.Adapter<TrainingAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         Exercise exercise = exercises.get(position);
         holder.exerciseTitleTextView.setText(exercise.getName());
-        holder.weightEditText.setText(exercise.getWeight());
+        holder.weightEditText.setText(Double.toString(exercise.getWeight()));
 
-        String[] reps  = exercise.getReps();
-        //TODO
+        int[] reps  = exercise.getReps();
+
 
         List<Circle> circles = new ArrayList<>();
-        for(String s : reps){
-            circles.add(new Circle(Color.LTGRAY, 0, Integer.parseInt(s)));
+        for(int i=0; i< reps.length; i++){
+            circles.add(new Circle(Color.rgb(205,205,205), 0, reps[i]));
+            reps[i] = -1;
         }
 
         holder.circlesRecyclerView.setHasFixedSize(true);
@@ -87,20 +87,33 @@ public class TrainingAdapter extends RecyclerView.Adapter<TrainingAdapter.ViewHo
     }
 
     @Override
-    public void recyclerViewListClicked(int row, int position, String value) {
+    public void recyclerViewListClicked(int row, int position, int value) {
         exercises.get(row).setReps(position, value);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView exerciseTitleTextView;
-        private EditText weightEditText;
+        private TextView weightEditText;
         private RecyclerView circlesRecyclerView;
+
 
         public ViewHolder(View itemView) {
             super(itemView);
             exerciseTitleTextView = (TextView) itemView.findViewById(R.id.exerciseTitleTextView);
-            weightEditText = (EditText) itemView.findViewById(R.id.weightEditText);
+            weightEditText = (TextView) itemView.findViewById(R.id.weigtClickableTV);
             circlesRecyclerView = (RecyclerView) itemView.findViewById(R.id.circlesRecyclerView);
+
+            weightEditText.addTextChangedListener(new TextWatcher() {
+                public void afterTextChanged(Editable s) {
+                    if(!s.toString().isEmpty()){
+                        exercises.get(getLayoutPosition()).setWeight(Double.parseDouble(s.toString()));
+                    }
+                }
+
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+                public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            });
         }
     }
 

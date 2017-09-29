@@ -1,8 +1,8 @@
 package com.mjbor.trainingapp.models;
 
 /**
- * Created by mjbor on 9/18/2017.
- */
+* Created by mjbor on 9/18/2017.
+*/
 
 public class UserResponse
 {
@@ -17,6 +17,8 @@ public class UserResponse
     private String email;
 
     private String name;
+
+    private Exercise[] exercises;
 
     private String surname;
 
@@ -50,11 +52,13 @@ public class UserResponse
         this.id_user = id_user;
     }
 
-    public boolean isError() {
+    public boolean getError ()
+    {
         return error;
     }
 
-    public void setError(boolean error) {
+    public void setError (boolean error)
+    {
         this.error = error;
     }
 
@@ -78,6 +82,16 @@ public class UserResponse
         this.name = name;
     }
 
+    public Exercise[] getExercises ()
+    {
+        return exercises;
+    }
+
+    public void setExercises (Exercise[] exercises)
+    {
+        this.exercises = exercises;
+    }
+
     public String getSurname ()
     {
         return surname;
@@ -91,6 +105,7 @@ public class UserResponse
     @Override
     public String toString()
     {
-        return "ClassPojo [message = "+message+", username = "+username+", id_user = "+id_user+", error = "+error+", email = "+email+", name = "+name+", surname = "+surname+"]";
+        return "ClassPojo [message = "+message+", username = "+username+", id_user = "+id_user+", error = "+error+", email = "+email+", name = "+name+", exercises = "+exercises+", surname = "+surname+"]";
     }
 }
+

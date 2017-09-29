@@ -13,4 +13,6 @@ public interface IRegisterView {
     public void setProgressBarInvisible();
     public void setButtonText(String text);
 
+    public void promptRecordPopup();
+
 }

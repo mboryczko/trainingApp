@@ -7,6 +7,7 @@ import com.mjbor.trainingapp.Login.presenter.LoginPresenter;
 import com.mjbor.trainingapp.Training.presenter.TrainingPresenter;
 import com.mjbor.trainingapp.models.Training;
 import com.mjbor.trainingapp.rest.ApiClient;
+import com.mjbor.trainingapp.rest.DefaultResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -16,7 +17,7 @@ import retrofit2.Response;
  * Created by mjbor on 9/18/2017.
  */
 
-public class TrainingInteractor implements Callback<Training> {
+public class TrainingInteractor implements Callback<DefaultResponse> {
 
     private TrainingPresenter presenter;
     private TrainingWebService webService;
@@ -27,13 +28,47 @@ public class TrainingInteractor implements Callback<Training> {
     }
 
     public void saveTraining(Training training){
-        Call<Training> call = webService.createTraining(training);
+        Call<DefaultResponse> call = webService.createTraining(training);
         call.enqueue(this);
     }
 
+    public void getNextTraining(String token){
+        Call<Training> call = webService.getNextTraining(token);
+        call.enqueue(new Callback<Training>() {
+            @Override
+            public void onResponse(Call<Training> call, Response<Training> response) {
+                Training training = response.body();
+                if(training.isError()){
+                    //user has no training history
+                    //presenter.noTrainigHistory();
+                }
+
+                else{
+                    presenter.onNextTrainingFetched(training);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Training> call, Throwable t) {
+                Log.e("fail", "at fail");
+                Log.e("fail", "at fail");
+            }
+        });
+    }
+
+
     @Override
-    public void onResponse(Call<Training> call, Response<Training> response) {
-        Training userResponse  = response.body();
+    public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
+        DefaultResponse userResponse  = response.body();
+
+        if(userResponse.isError()){
+            presenter.onTrainingSavedFailed(userResponse.getMessage());
+        }
+
+        else{
+            presenter.onTrainingSavedSuccessfully(userResponse.getMessage());
+        }
 
         Log.e("xd", "success");
         Log.e("xd", "success");
@@ -41,8 +76,9 @@ public class TrainingInteractor implements Callback<Training> {
     }
 
     @Override
-    public void onFailure(Call<Training> call, Throwable t) {
+    public void onFailure(Call<DefaultResponse> call, Throwable t) {
 
+        presenter.onTrainingSavedFailed("Oops something wen wrong. Please try again later");
         Log.e("xd", "fail");
         Log.e("xd", "fail");
     }
