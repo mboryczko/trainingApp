@@ -253,6 +253,7 @@ implements View.OnClickListener{
 
     public void refreshInstructions(){
         calculator = new PlateCalculator(weight);
+
         instructionsTV.setText(calculator.getResult());
 
     }
