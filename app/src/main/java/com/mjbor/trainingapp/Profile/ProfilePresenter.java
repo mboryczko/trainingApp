@@ -47,9 +47,15 @@ public class ProfilePresenter {
 
     public String prepareListOfBestResults(Exercise[] exercises){
         String list = "";
-        for(Exercise e : exercises){
-            list += "• " + e.getName() + " - " +  e.getWeight() + "\n";
+        if(exercises != null){
+            for(Exercise e : exercises){
+                list += "• " + e.getName() + " - " +  e.getWeight() + "\n";
+            }
         }
+
+        else
+            list = "No records set yet";
+
 
         return list;
     }

@@ -22,16 +22,38 @@
         />
 
 
-    <TextView
-        android:id="@+id/instructionsTV"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginBottom="24dp"
-        android:textSize="16dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:gravity="center"
+        >
+
+
+        <SurfaceView
+            android:background="@android:color/transparent"
+            android:id="@+id/surface"
+            android:layout_marginLeft="16dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+
+        <TextView
+            android:id="@+id/instructionsTV"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="24dp"
+            android:textSize="16dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="wefwefwefwe"
+            />
+
+    </LinearLayout>
+
+
+
 
 
     <LinearLayout
