@@ -74,6 +74,7 @@ implements View.OnClickListener{
     private int startPlateX, startPlateY;
     private int barX, barY;
     private boolean created;
+    private CanvasThread thread;
 
 
     public void draw(Canvas canvas){
@@ -81,7 +82,6 @@ implements View.OnClickListener{
         int rectHeight = canvasHeight/3;
         int startX = (canvasWidth/2)-(rectWidth/2);
         int startY = (canvasHeight/2) - (rectHeight/2);*/
-
         calculator = new PlateCalculator(weight);
         drawBar(canvas);
         drawPlateSeparator(canvas);
@@ -100,10 +100,8 @@ implements View.OnClickListener{
             Integer platesCount = entry.getValue();
             paint.setColor(getPlateColor(weight));
 
-
             plateHeight = (int)(canvasHeight * 0.1 * Math.sqrt(weight));
             startPlateY = (canvasHeight/2) - (plateHeight/2);
-
 
             for(int i = 0; i < platesCount; i++){
                 canvas.drawRect(startPlateX, startPlateY, startPlateX+plateWidth, startPlateY+plateHeight, paint);
@@ -207,15 +205,10 @@ implements View.OnClickListener{
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
 
-                if(!created){
-                    holder.setFormat(PixelFormat.TRANSPARENT);
-                    Canvas canvas = holder.lockCanvas();
-                    canvasWidth = canvas.getWidth();
-                    canvasHeight = canvas.getHeight();
-                    draw(canvas);
-                    holder.unlockCanvasAndPost(canvas);
-                    created = true;
-                }
+                holder.setFormat(PixelFormat.TRANSPARENT);
+                thread = new CanvasThread(holder, PlateCalculatorDialog.this);
+                thread.setRunning(true);
+                thread.start();
 
             }
 
@@ -226,7 +219,20 @@ implements View.OnClickListener{
 
             @Override
             public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
+                boolean retry = true;
+                int counter = 0;
+                while(retry && counter<1000)
+                {
+                    counter++;
+                    try{
+                        thread.setRunning(false);
+                        thread.join();
+                        retry = false;
+                        thread = null;
 
+                    }catch(InterruptedException e){e.printStackTrace();}
+
+                }
             }
         });
 
