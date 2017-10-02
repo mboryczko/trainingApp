@@ -6,6 +6,7 @@
 
     <color name="colorWhite">#ffffff</color>
     <color name="colorGrey2">#b4afaf</color>
+    <color name="colorGrey3">#616161</color>
 
 
     <color name="colorPrimary">#729B79</color>
@@ -18,6 +19,8 @@
     <color name="color4">#475B63</color>
     <color name="color5">#2E2C2F</color>
 
+    
+    
 
     <!--ANDROID HIVE -->
     <!-- Screens background color-->

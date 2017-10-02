@@ -48,6 +48,7 @@ public class TrainingPresenter {
         interactor.getNextTraining(token);
     }
 
+
     public void onNextTrainingFetched(Training training){
         view.showTraining(training);
     }
@@ -75,11 +76,11 @@ public class TrainingPresenter {
     }
 
     public boolean validateTraining(Training training){
-        Exercise[] exercises = training.getExercises();
-        int[] reps;
+        List<Exercise> exercises = training.getExercises();
+        List<Integer> reps;
 
-        for(int i=0; i<exercises.length; i++){
-            reps = exercises[i].getReps();
+        for(int i=0; i<exercises.size(); i++){
+            reps = exercises.get(i).getReps();
             for(int rep : reps){
                 if(rep == -1 ){
                     return false;

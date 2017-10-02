@@ -51,6 +51,9 @@
     <string name="skip">SKIP</string>
     <string name="start">GOT IT</string>
 
+    <string name="new_exercise">New exercise</string>
+
+
     <string name="slide_1_title">Hello Food!</string>
     <string name="slide_1_desc">The easiest way to order food from your favourite restaurant!</string>
 

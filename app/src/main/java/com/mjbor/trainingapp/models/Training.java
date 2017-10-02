@@ -1,5 +1,7 @@
 package com.mjbor.trainingapp.models;
 
+import java.util.List;
+
 /**
  * Created by mjbor on 9/19/2017.
  */
@@ -43,15 +45,13 @@ public class Training
         this.message = message;
     }
 
-    private Exercise[] exercises;
+    private List<Exercise> exercises;
 
-    public Exercise[] getExercises ()
-    {
+    public List<Exercise> getExercises() {
         return exercises;
     }
 
-    public void setExercises (Exercise[] exercises)
-    {
+    public void setExercises(List<Exercise> exercises) {
         this.exercises = exercises;
     }
 

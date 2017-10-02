@@ -16,20 +16,24 @@ import android.widget.Toast;
 
 import com.mjbor.trainingapp.Main.view.MainActivity;
 import com.mjbor.trainingapp.R;
+import com.mjbor.trainingapp.Training.newExercise.NewExerciseDialog;
 import com.mjbor.trainingapp.Training.plateCalculator.PlateCalculatorDialog;
 import com.mjbor.trainingapp.Training.presenter.TrainingPresenter;
 import com.mjbor.trainingapp.Utils.Constants;
+import com.mjbor.trainingapp.models.Exercise;
 import com.mjbor.trainingapp.models.Training;
 import com.mjbor.trainingapp.sessions.ISessionManager;
 import com.mjbor.trainingapp.sessions.SessionManager;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class TrainingActivity extends AppCompatActivity
-        implements ITrainingView, PlateCalculatorDialog.PlateCalculatorListener {
+        implements ITrainingView, PlateCalculatorDialog.PlateCalculatorListener, NewExerciseDialog.NewExerciseListener {
 
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
     @BindView(R.id.progressBarTraining) ProgressBar progressBar;
@@ -59,16 +63,17 @@ public class TrainingActivity extends AppCompatActivity
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
-        /*//TODO
-        exercises = new ArrayList<>();
-        exercises.add(new Exercise(new String[]{"5", "5", "5", "5", "5"} , "95", "Bench Press", "5"));
-        exercises.add(new Exercise(new String[]{"5", "5", "5", "5", "5"} , "120", "Squat", "5"));
-        exercises.add(new Exercise(new String[]{"6", "6", "6"}, "20", "Chinups", "5"));
+
+    }
+
+    @Override
+    public void onDialogPositiveCheck(DialogFragment dialog, Exercise exercise) {
+        List<Exercise> exercises = training.getExercises();
+        //exercises.add(new Exercise(new ArrayList<>(Arrays.asList(6,6,6)) , 20, "B", 6));
+        exercises.add(exercise);
 
         adapter = new TrainingAdapter(exercises, this);
         recyclerView.setAdapter(adapter);
-        */
-
     }
 
     @Override
@@ -87,6 +92,7 @@ public class TrainingActivity extends AppCompatActivity
         promptPlateDialog(weight);
     }
 
+
     @Override
     public void promptPlateDialog(double weight) {
         dialog = new PlateCalculatorDialog();
@@ -99,7 +105,7 @@ public class TrainingActivity extends AppCompatActivity
     @Override
     public void showTraining(Training training) {
         this.training = training;
-        adapter = new TrainingAdapter(Arrays.asList(training.getExercises()), this);
+        adapter = new TrainingAdapter(training.getExercises(), this);
         recyclerView.setAdapter(adapter);
 
     }
@@ -111,17 +117,28 @@ public class TrainingActivity extends AppCompatActivity
 
 
     public void saveClicked(View v){
-        /*Training training = new Training();
-        Exercise[] tab = exercises.toArray(new Exercise[exercises.size()]);
-        training.setExercises(tab);*/
-
         presenter.saveTraining(training);
+    }
+
+    public void addExercise(View v){
+        NewExerciseDialog dialog = new NewExerciseDialog();
+        dialog.show(getSupportFragmentManager(), "NewExerciseDialog");
+
+
+        /*List<Exercise> exercises = training.getExercises();
+        Exercise exercise = presenter.getNexExercise();
+        exercises.add(new Exercise(new ArrayList<>(Arrays.asList(6,6,6)) , 20, "B", 6));
+
+        adapter = new TrainingAdapter(exercises, this);
+        recyclerView.setAdapter(adapter);*/
+
     }
 
     @Override
     public void goHomeWithoutStack() {
         Intent i = new Intent(this, MainActivity.class);
         i.setFlags(i.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
+        finish();
         startActivity(i);
     }
 

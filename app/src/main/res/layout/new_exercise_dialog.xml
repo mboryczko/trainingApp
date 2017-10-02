@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    tools:context="com.mjbor.trainingapp.Register.view.RegisterActivity">
+
+    <TextView
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginBottom="24dp"
+        android:textStyle="bold"
+
+        android:textSize="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/new_exercise"
+        />
+
+
+
+    <LinearLayout
+        android:id="@+id/registerForm"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center|top"
+        android:orientation="vertical">
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <EditText
+                android:id="@+id/newExerciseName"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:hint="Exercise name"
+                android:imeOptions="actionNext"
+                android:inputType="text" />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <EditText
+                android:id="@+id/newExerciseSets"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:hint="Sets number"
+                android:imeOptions="actionNext"
+                android:inputType="number" />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <EditText
+                android:id="@+id/newExerciseReps"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:hint="Reps"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <EditText
+                android:id="@+id/newExerciseWeight"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:hint="Weight"
+                android:imeOptions="actionDone"
+                android:inputType="numberDecimal" />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

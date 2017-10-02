@@ -1,12 +1,14 @@
 package com.mjbor.trainingapp.models;
 
+import java.util.List;
+
 /**
  * Created by mjbor on 9/19/2017.
  */
 
 public class Exercise
 {
-    private int[] reps;
+    private List<Integer> reps;
 
     private double weight;
 
@@ -22,25 +24,23 @@ public class Exercise
         this.reps_to_do = reps_to_do;
     }
 
-    public Exercise(int[] reps, double weight, String name, int reps_to_do) {
+    public Exercise(List<Integer> reps, double weight, String name, int reps_to_do) {
         this.reps = reps;
         this.weight = weight;
         this.name = name;
         this.reps_to_do = reps_to_do;
     }
 
-    public void setReps(int position, int reps){
-        this.reps[position] = reps;
-    }
-
-    public int[] getReps ()
-    {
+    public List<Integer> getReps() {
         return reps;
     }
 
-    public void setReps (int[] reps)
-    {
+    public void setReps(List<Integer> reps) {
         this.reps = reps;
+    }
+
+    public void setReps(int position, int value){
+        this.reps.set(position, value);
     }
 
     public double getWeight ()

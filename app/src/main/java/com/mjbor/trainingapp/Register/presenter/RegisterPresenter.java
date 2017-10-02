@@ -8,6 +8,7 @@ import com.mjbor.trainingapp.models.Training;
 import com.mjbor.trainingapp.models.User;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -37,23 +38,21 @@ public class RegisterPresenter {
 
         String[] exercisesArray = {"Squat", "Bench press", "Barbell row", "Over head press", "Deadlift"};
 
-        exercises1.add(new Exercise(new int[]{5,5,5,5,5} , records.get(0), "Squat", 5));
-        exercises1.add(new Exercise(new int[]{5,5,5,5,5} , records.get(1), "Bench press", 5));
-        exercises1.add(new Exercise(new int[]{5,5,5,5,5} , records.get(2), "Barbell row",  5));
+        exercises1.add(new Exercise(new ArrayList<>(Arrays.asList(5, 5, 5, 5, 5)) , records.get(0), "Squat", 5));
+        exercises1.add(new Exercise(new ArrayList<>(Arrays.asList(5, 5, 5, 5, 5)) , records.get(1), "Bench press", 5));
+        exercises1.add(new Exercise(new ArrayList<>(Arrays.asList(5, 5, 5, 5, 5)) , records.get(2), "Barbell row",  5));
 
-        exercises2.add(new Exercise(new int[]{5,5,5,5,5} , records.get(1), "Squat",  5));
-        exercises2.add(new Exercise(new int[]{5,5,5,5,5} , records.get(3), "Over head press", 5));
-        exercises2.add(new Exercise(new int[]{5,5,5,5,5} , records.get(4), "Deadlift", 5));
+        exercises2.add(new Exercise(new ArrayList<>(Arrays.asList(5, 5, 5, 5, 5)) , records.get(1), "Squat",  5));
+        exercises2.add(new Exercise(new ArrayList<>(Arrays.asList(5, 5, 5, 5, 5)) , records.get(3), "Over head press", 5));
+        exercises2.add(new Exercise(new ArrayList<>(Arrays.asList(5, 5, 5, 5, 5)) , records.get(4), "Deadlift", 5));
 
 
         Training training1 = new Training();
-        Exercise[] tab1 = exercises1.toArray(new Exercise[exercises1.size()]);
-        training1.setExercises(tab1);
+        training1.setExercises(exercises1);
 
 
         Training training2 = new Training();
-        Exercise[] tab2 = exercises2.toArray(new Exercise[exercises2.size()]);
-        training2.setExercises(tab2);
+        training2.setExercises(exercises2);
 
         RegisterModel registerModel = new RegisterModel(training1, training2, user);
 

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mjbor.trainingapp.R;
@@ -54,20 +55,49 @@ public class TrainingAdapter extends RecyclerView.Adapter<TrainingAdapter.ViewHo
     }
 
 
+    public boolean isMainExercise(String name){
+        if(name.equals("Squat")){
+            return true;
+        }
+        if(name.equals("Bench press")){
+            return true;
+        }
+
+        if(name.equals("Barbell row")){
+            return true;
+        }
+
+        if(name.equals("Over head press")){
+            return true;
+        }
+
+        if(name.equals("Deadlift")){
+            return true;
+        }
+
+        return false;
+
+    }
+
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Exercise exercise = exercises.get(position);
+        if(!isMainExercise(exercise.getName())){
+            holder.deleteIV.setVisibility(View.VISIBLE);
+        }
+
         holder.exerciseTitleTextView.setText(exercise.getName());
         holder.weightEditText.setText(Double.toString(exercise.getWeight()));
 
-        int[] reps  = exercise.getReps();
+
+        List<Integer> reps  = exercise.getReps();
 
 
         List<Circle> circles = new ArrayList<>();
-        for(int i=0; i< reps.length; i++){
-            circles.add(new Circle(Color.rgb(205,205,205), 0, reps[i]));
-            reps[i] = -1;
+        for(int i=0; i< reps.size(); i++){
+            circles.add(new Circle(Color.rgb(205,205,205), 0, reps.get(i)));
+            //reps.set(i, -1);
         }
 
         holder.circlesRecyclerView.setHasFixedSize(true);
@@ -95,6 +125,7 @@ public class TrainingAdapter extends RecyclerView.Adapter<TrainingAdapter.ViewHo
         private TextView exerciseTitleTextView;
         private TextView weightEditText;
         private RecyclerView circlesRecyclerView;
+        private ImageView deleteIV;
 
 
         public ViewHolder(View itemView) {
@@ -102,6 +133,7 @@ public class TrainingAdapter extends RecyclerView.Adapter<TrainingAdapter.ViewHo
             exerciseTitleTextView = (TextView) itemView.findViewById(R.id.exerciseTitleTextView);
             weightEditText = (TextView) itemView.findViewById(R.id.weigtClickableTV);
             circlesRecyclerView = (RecyclerView) itemView.findViewById(R.id.circlesRecyclerView);
+            deleteIV = (ImageView) itemView.findViewById(R.id.deleteIV);
 
             weightEditText.addTextChangedListener(new TextWatcher() {
                 public void afterTextChanged(Editable s) {
@@ -113,6 +145,17 @@ public class TrainingAdapter extends RecyclerView.Adapter<TrainingAdapter.ViewHo
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
                 public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            });
+
+
+            deleteIV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    exercises.remove(getLayoutPosition());
+                    notifyItemRemoved(getLayoutPosition());
+                   // notifyItemRangeChanged();
+                    //notifyDataSetChanged();
+                }
             });
         }
     }

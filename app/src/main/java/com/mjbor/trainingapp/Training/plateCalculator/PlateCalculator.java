@@ -1,11 +1,7 @@
 package com.mjbor.trainingapp.Training.plateCalculator;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,7 +36,7 @@ public class PlateCalculator {
     }
 
     public String getResult(){
-        if(weight < 20)
+        if(weight <= 20)
             return "Lift empty bar";
 
         int plates;
