@@ -37,6 +37,7 @@ public class HomePresenter {
 
     public void onTrainingFetchedSuccesfully(Training response){
 
+        view.trainingFetched(response);
 
         String text = "";
 

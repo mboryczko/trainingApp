@@ -37,6 +37,8 @@
     <string name="a_training_ex1">Squat</string>
     <string name="a_training_ex2">Bench Press</string>
     <string name="a_training_ex3">Barbell Row</string>
+    <string name="error">Couldn\'t fetch data from server</string>
+    <string name="retry">Retry </string>
 
 
     <string name="history_fragment_title">Tell us a little bit</string>
@@ -45,6 +47,11 @@
         generate training suited to your fitness level.
     </string>
 
+    <string name="no_training">
+        If you haven\'t trained before or don\'t know your results
+        please check here.
+        </string>
+
 
     <string name="title_activity_welcome">Home Screen</string>
     <string name="next">NEXT</string>
@@ -52,6 +59,9 @@
     <string name="start">GOT IT</string>
 
     <string name="new_exercise">New exercise</string>
+
+    <string name="facebook_app_id">119867268717845</string>
+    <string name="fb_login_protocol_scheme">fb119867268717845</string>
 
 
     <string name="slide_1_title">Hello Food!</string>

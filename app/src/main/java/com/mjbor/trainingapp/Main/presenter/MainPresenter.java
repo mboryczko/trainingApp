@@ -6,6 +6,7 @@ import android.os.Handler;
 
 import com.mjbor.trainingapp.Main.model.MainInteractor;
 import com.mjbor.trainingapp.Main.view.IMainView;
+import com.mjbor.trainingapp.models.Training;
 import com.mjbor.trainingapp.sessions.ISessionManager;
 
 
@@ -14,6 +15,8 @@ import com.mjbor.trainingapp.sessions.ISessionManager;
  */
 
 public class MainPresenter {
+
+    private Training lastTraining;
 
     private IMainView view;
     private MainInteractor mainInteractor;
@@ -32,6 +35,14 @@ public class MainPresenter {
     public void logoutClicked(){
         sessionManager.logoutUser();
         view.onLogout();
+    }
+
+    public void gotLastTraining(Training training){
+        this.lastTraining = training;
+    }
+
+    public void lastTrainingClicked(){
+        view.openLastTraining(lastTraining);
     }
 
     public void onBackPressed(){

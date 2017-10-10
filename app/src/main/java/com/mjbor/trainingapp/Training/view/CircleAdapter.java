@@ -121,28 +121,6 @@ public class CircleAdapter extends  RecyclerView.Adapter<CircleAdapter.ViewHolde
 
         }
 
-        /*@Override
-        public void onClick(View view) {
-            //itemListener.recyclerViewListClicked(view, this.getLayoutPosition());
-
-            int position = getLayoutPosition();
-
-            Circle circle = circles.get(position);
-            int value = circle.getValue();
-            if(value == 0){
-                circle.setColor(Color.RED);
-                circle.setValue(5);
-            }
-
-            if(value == 1){
-                circle.setValue(0);
-                circle.setColor(Color.GRAY);
-            }
-
-            if(value > 1){
-                circle.setValue(--value);
-            }
-        }*/
     }
 
 }

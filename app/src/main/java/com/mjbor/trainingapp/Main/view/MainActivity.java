@@ -1,7 +1,7 @@
 package com.mjbor.trainingapp.Main.view;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
 import com.mjbor.trainingapp.Home.HomeFragment;
 import com.mjbor.trainingapp.Login.view.LoginActivity;
 import com.mjbor.trainingapp.Main.presenter.MainPresenter;
@@ -21,7 +22,9 @@ import com.mjbor.trainingapp.Profile.ProfileFragment;
 import com.mjbor.trainingapp.Progress.ProgressFragment;
 import com.mjbor.trainingapp.R;
 import com.mjbor.trainingapp.Training.view.TrainingActivity;
+import com.mjbor.trainingapp.TrainingShow.TrainingShow;
 import com.mjbor.trainingapp.Utils.Constants;
+import com.mjbor.trainingapp.models.Training;
 import com.mjbor.trainingapp.sessions.ISessionManager;
 import com.mjbor.trainingapp.sessions.SessionManager;
 
@@ -31,7 +34,8 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements IMainView,
         BottomNavigationView.OnNavigationItemSelectedListener,
         ViewPager.OnPageChangeListener,
-        SwipeRefreshLayout.OnRefreshListener {
+        SwipeRefreshLayout.OnRefreshListener,
+        HomeFragment.OnTrainingFetched{
 
     @BindView(R.id.bottom_navigation)
     BottomNavigationView bottomNavigationView;
@@ -50,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements IMainView,
     private MenuItem prevMenuItem;
     private int currentPage;
     private ViewPagerAdapter adapter;
+
+    private Training training;
 
 
     @Override
@@ -74,16 +80,12 @@ public class MainActivity extends AppCompatActivity implements IMainView,
 
     }
 
-
-    public void trainingClicked(View v) {
-        Intent i = new Intent(this, TrainingActivity.class);
-        //TODO
-        i.putExtra(Constants.ADDITIONAL_EXERCISES, 2);
-        i.putExtra(Constants.ADDITIONAL_EX1_SETS, 4);
-        i.putExtra(Constants.ADDITIONAL_EX2_SETS, 2);
-        startActivity(i);
-
+    @Override
+    public void onTrainingFetched(Training training) {
+        presenter.gotLastTraining(training);
     }
+
+
 
     @Override
     public void onRefresh() {
@@ -108,6 +110,10 @@ public class MainActivity extends AppCompatActivity implements IMainView,
         adapter.notifyDataSetChanged();
     }
 
+
+
+
+
     @Override
     public void killApp() {
         this.finishAffinity();
@@ -118,6 +124,12 @@ public class MainActivity extends AppCompatActivity implements IMainView,
         presenter.onBackPressed();
 
     }
+
+
+
+
+
+
 
     @Override
     public void toast(String message) {
@@ -136,6 +148,7 @@ public class MainActivity extends AppCompatActivity implements IMainView,
         bundle.putString(Constants.TOKEN, token);
         profileFragment.setArguments(bundle);
         homeFragment.setArguments(bundle);
+        progressFragment.setArguments(bundle);
 
         adapter.addFragment(homeFragment);
         adapter.addFragment(progressFragment);
@@ -147,8 +160,28 @@ public class MainActivity extends AppCompatActivity implements IMainView,
         presenter.logoutClicked();
     }
 
+    public void lastTrainingClicked(View v){
+        presenter.lastTrainingClicked();
+    }
+
+
+
+    public void trainingClicked(View v) {
+        Intent i = new Intent(this, TrainingActivity.class);
+        //TODO
+        startActivity(i);
+    }
+
+    @Override
+    public void openLastTraining(Training training) {
+        Intent i = new Intent(this, TrainingActivity.class);
+        i.putExtra(Constants.TRAINING, training);
+        startActivity(i);
+    }
+
     @Override
     public void onLogout() {
+        LoginManager.getInstance().logOut();
         Intent i = new Intent(this, LoginActivity.class);
         // Closing all the Activities
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

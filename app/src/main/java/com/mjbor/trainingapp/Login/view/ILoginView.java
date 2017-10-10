@@ -8,6 +8,7 @@ public interface ILoginView {
 
     public void goToMain();
     public void toast(String message);
+    public void promptRecordPopup();
 
     public void setProgressBarVisible();
     public void setProgressBarInvisible();

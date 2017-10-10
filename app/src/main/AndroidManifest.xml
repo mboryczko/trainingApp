@@ -20,7 +20,17 @@
         </activity>
         <activity android:name=".Main.view.MainActivity" />
         <activity android:name=".Register.view.RegisterActivity" />
-        <activity android:name=".Training.view.TrainingActivity"></activity>
+        <activity android:name=".Training.view.TrainingActivity" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+        <activity android:name=".TrainingShow.TrainingShow"></activity>
     </application>
 
 </manifest>

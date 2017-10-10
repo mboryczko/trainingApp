@@ -12,6 +12,8 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -44,6 +46,7 @@ public class TrainingHistoryDialog extends DialogFragment {
     private EditText barbell;
     private EditText ohp;
     private EditText deadlift;
+    private CheckBox checkBox;
 
 
     public void setEditTexts(View v){
@@ -52,6 +55,7 @@ public class TrainingHistoryDialog extends DialogFragment {
         this.barbell = v.findViewById(R.id.barbellRowEditText);
         this.ohp = v.findViewById(R.id.ohpEditText);
         this.deadlift = v.findViewById(R.id.deadliftEditText);
+        this.checkBox = v.findViewById(R.id.haventTrainedCheckBox);
     }
 
     public boolean validate() {
@@ -71,6 +75,28 @@ public class TrainingHistoryDialog extends DialogFragment {
         final LayoutInflater inflater = getActivity().getLayoutInflater();
         final View view = inflater.inflate(R.layout.dialog_history, null);
         setEditTexts(view);
+
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if(isChecked){
+                    squat.setText("50");
+                    bench.setText("40");
+                    barbell.setText("20");
+                    ohp.setText("20");
+                    deadlift.setText("50");
+
+                }
+
+                else {
+                    squat.setText("");
+                    bench.setText("");
+                    barbell.setText("");
+                    ohp.setText("");
+                    deadlift.setText("");
+                }
+            }
+        });
 
         builder.setView(view)
                 // Add action buttons

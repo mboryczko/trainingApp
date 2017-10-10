@@ -8,6 +8,8 @@ import com.mjbor.trainingapp.models.User;
 import com.mjbor.trainingapp.models.UserResponse;
 import com.mjbor.trainingapp.sessions.ISessionManager;
 
+import java.util.List;
+
 import butterknife.BindView;
 
 /**
@@ -21,12 +23,23 @@ public class ProfilePresenter {
     String token;
 
 
-    public ProfilePresenter(IProfileFragment view, String token){
+    public ProfilePresenter(IProfileFragment view, String token) {
         this.view = view;
         this.interactor = new ProfileInteractor(this);
         this.token = token;
         getUserInfo();
     }
+
+
+    public void onImageFetched() {
+
+    }
+
+    public void onImageFailed(){
+
+    }
+
+
 
     public void getUserInfo(){
         interactor.getUserInfo(token);
@@ -34,18 +47,20 @@ public class ProfilePresenter {
 
 
     public void onUserDataFetchedSuccessfully(UserResponse u){
-        view.setProfileUsername(u.getUsername());
-        view.setProfileName(u.getName());
+        view.setProfileTopName(u.getName());
         view.setProfileSurname(u.getSurname());
         view.setProfileEmail(u.getEmail());
         view.setBestResults(prepareListOfBestResults(u.getExercises()));
+        view.setProfileAsync(u.getAvatar());
+        view.setCoverAsync(u.getCover());
 
-        view.setCollapsingTootlbarTitle(u.getUsername());
+
+        view.setCollapsingTootlbarTitle(u.getName());
 
     }
 
 
-    public String prepareListOfBestResults(Exercise[] exercises){
+    public String prepareListOfBestResults(List<Exercise> exercises){
         String list = "";
         if(exercises != null){
             for(Exercise e : exercises){
@@ -61,7 +76,7 @@ public class ProfilePresenter {
     }
 
     public void onUserDataFetchedFailed(String serverMssage){
-
+        view.setProfileSurname(serverMssage);
     }
 
 

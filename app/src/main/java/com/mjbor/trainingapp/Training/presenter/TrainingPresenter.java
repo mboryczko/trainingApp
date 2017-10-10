@@ -40,19 +40,77 @@ public class TrainingPresenter {
     }
 
 
+    public TrainingPresenter(ITrainingView view, ISessionManager sessionManager, Training training){
+        this.view = view;
+        this.interactor = new TrainingInteractor(this);
+        this.sessionManager = sessionManager;
+        this.token = sessionManager.getUserToken();
+
+        view.setFloatingButtonInvisible();
+        view.setDateVisible();
+
+        showTraining(training);
+    }
+
+
     public void onWeightClicked(double weight){
         view.promptPlateDialog(weight);
     }
 
+    public void retryClicked(){
+        getNextTraining();
+    }
+
     public void getNextTraining(){
+        view.setRetryButtonInvisible();
+        view.setFailedInformationInvisible();
+        view.setButtonInvisible();
+        view.setFloatingButtonInvisible();
+        view.setProgressBarCenterVisible();
         interactor.getNextTraining(token);
+    }
+
+    public void showTraining(Training training){
+
+        view.setProgressBarCenterInvisible();
+        view.setProgressBarInvisible();
+        view.setButtonVisible();
+        view.showTraining(training);
     }
 
 
     public void onNextTrainingFetched(Training training){
+        view.setProgressBarCenterInvisible();
+        view.setFloatingButtonVisible();
+        view.setButtonVisible();
         view.showTraining(training);
     }
 
+    public void onNextTrainingFailed(String message){
+        view.setRetryButtonVisible();
+        view.setProgressBarCenterInvisible();
+        view.setFailedInformation(message);
+
+    }
+
+
+    public void updateTraining(Training training){
+        if(validateTraining(training)){
+            if(!requestSent){
+                view.setButtonText("");
+                view.setProgressBarVisible();
+                training.setToken(sessionManager.getUserToken());
+
+                interactor.updateTraining(training);
+
+                requestSent = true;
+            }
+        }
+
+        else {
+            view.toast("Please provide all data");
+        }
+    }
 
     public void saveTraining(Training training){
         if(validateTraining(training)){
@@ -70,8 +128,6 @@ public class TrainingPresenter {
         else {
             view.toast("Please provide all data");
         }
-
-
 
     }
 

@@ -16,7 +16,6 @@ public class Constants {
     public static final String ADDITIONAL_EX1_SETS = "sets1";
     public static final String ADDITIONAL_EX2_SETS = "sets2";
 
-    public static final String USERNAME = "username";
     public static final String NAME = "name";
     public static final String SURNAME = "surname";
     public static final String EMAIL = "email";
@@ -25,4 +24,6 @@ public class Constants {
     public static final String RED = "red";
     public static final String DARK_RED = "darkRed";
     public static final String GREY = "grey";
+
+    public static final String TRAINING = "Training";
 }

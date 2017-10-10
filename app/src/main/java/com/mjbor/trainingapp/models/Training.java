@@ -1,17 +1,37 @@
 package com.mjbor.trainingapp.models;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by mjbor on 9/19/2017.
  */
 
-public class Training
+public class Training implements Serializable
 {
+    private String training_date;
     private boolean error;
+    private int id_training;
     private String message;
     private String token;
     private int type;
+
+
+    public String getTraining_date() {
+        return training_date;
+    }
+
+    public void setTraining_date(String training_date) {
+        this.training_date = training_date;
+    }
+
+    public int getId_training() {
+        return id_training;
+    }
+
+    public void setId_training(int id_training) {
+        this.id_training = id_training;
+    }
 
     public int getType() {
         return type;

@@ -34,11 +34,11 @@
             >
 
             <EditText
-                android:text="admin"
-                android:id="@+id/usernameEditText"
+                android:text="admin@admin.com"
+                android:id="@+id/emailEditText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/username"
+                android:hint="@string/email"
                 android:layout_marginBottom="10dip"/>
 
         </android.support.design.widget.TextInputLayout>
@@ -65,6 +65,14 @@
         </android.support.design.widget.TextInputLayout>
 
 
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_button"
+            android:onClick="facebookLoginClicked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"

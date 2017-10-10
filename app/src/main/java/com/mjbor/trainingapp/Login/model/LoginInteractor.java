@@ -1,6 +1,7 @@
 package com.mjbor.trainingapp.Login.model;
 
 import com.mjbor.trainingapp.Login.presenter.LoginPresenter;
+import com.mjbor.trainingapp.Register.model.RegisterModel;
 import com.mjbor.trainingapp.models.User;
 import com.mjbor.trainingapp.rest.ApiClient;
 import com.mjbor.trainingapp.rest.DefaultResponse;
@@ -47,9 +48,48 @@ public class LoginInteractor implements Callback<LoginResponse> {
         loginPresenter.onLoginFailure("Error connecting to server");
     }
 
-    public void login(String username, String password){
-        Call<LoginResponse> call = loginWebService.login(username, password);
+    public void login(String email, String password){
+        Call<LoginResponse> call = loginWebService.login(email, password);
         call.enqueue(this);
+    }
+
+
+    public void register(RegisterModel registerModel) {
+        Call<DefaultResponse> call = loginWebService.registration(registerModel);
+        call.enqueue(new Callback<DefaultResponse>() {
+            @Override
+            public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
+                loginPresenter.onRegisterSuccess();
+            }
+
+            @Override
+            public void onFailure(Call<DefaultResponse> call, Throwable t) {
+                loginPresenter.onRegisterFailure();
+            }
+        });
+    }
+
+    public void isFacebookUserRegistered(String email){
+        Call<LoginResponse> call = loginWebService.isFacebookUserRegistered(email);
+        call.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                LoginResponse loginResponse = response.body();
+                if(loginResponse.isError()){
+                    loginPresenter.facebookUserDoesNotExist();
+                }
+
+                else{
+                    //user exists
+                    loginPresenter.facebookUserExists(loginResponse.getToken());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+
+            }
+        });
     }
 
 }

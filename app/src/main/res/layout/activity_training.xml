@@ -9,16 +9,64 @@
     android:orientation="vertical"
     >
 
+    <TextView
+        android:id="@+id/trainingDateTV"
+        android:text="2017-09-09"
+        android:layout_marginBottom="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+    />
+
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/relativeLayout">
+        android:layout_below="@id/trainingDateTV"
+        >
 
     </android.support.v7.widget.RecyclerView>
 
 
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"/>
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/failInformation"
+        android:layout_centerInParent="true"
+        android:textAlignment="center"
+        android:text="@string/error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:visibility="gone"
+        android:id="@+id/retryButton"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/failInformation"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:text="@string/retry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="retryClick"
+        android:textStyle="bold"
+        android:textColor="@color/color1"
+        android:background="@color/color3"
+        android:padding="20dp"/>
+
+
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingButton"
         android:onClick="addExercise"
         android:layout_alignParentRight="true"
         android:layout_alignBottom="@id/recyclerView"
@@ -38,6 +86,7 @@
 
 
         <Button
+            android:visibility="gone"
             android:id="@+id/saveTrainingButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

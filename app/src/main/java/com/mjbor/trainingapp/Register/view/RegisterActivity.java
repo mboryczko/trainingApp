@@ -25,7 +25,6 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterView
         TrainingHistoryDialog.TrainingHistoryListener{
 
 
-    @BindView(R.id.usernameEditText) EditText usernameEditText;
     @BindView(R.id.emailEditText) EditText emailEditText;
     @BindView(R.id.passwordEditText) EditText passwordEditText;
     @BindView(R.id.nameEditText) EditText nameEditText;
@@ -90,14 +89,13 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterView
     }
 
     public void submitClicked(View v){
-        String username = usernameEditText.getText().toString();
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
         String name = nameEditText.getText().toString();
         String surname = surnameEditText.getText().toString();
 
 
-        User user = new User(username, email, password, name, surname);
+        User user = new User(email, password, name, surname);
         presenter.registerClicked(user);
     }
 

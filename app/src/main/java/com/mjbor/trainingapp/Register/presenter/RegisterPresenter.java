@@ -97,11 +97,6 @@ public class RegisterPresenter {
 
     public boolean validate(User user){
 
-        if(user.getUsername().length() < 5){
-            view.toast("Username has to be at least 5 characters long");
-            return false;
-        }
-
         if(!validateEmail(user.getEmail())){
             view.toast("Invalid email address");
             return false;

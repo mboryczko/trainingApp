@@ -17,7 +17,19 @@ public interface ITrainingView {
 
     public void setProgressBarVisible();
     public void setProgressBarInvisible();
+    public void setButtonVisible();
+    public void setButtonInvisible();
     public void setButtonText(String text);
+    public void setProgressBarCenterVisible();
+    public void setProgressBarCenterInvisible();
+    public void setRetryButtonVisible();
+    public void setRetryButtonInvisible();
+    public void setFailedInformation(String message);
+    public void setFailedInformationInvisible();
+    public void setFloatingButtonInvisible();
+    public void setFloatingButtonVisible();
+    public void setDateVisible();
+    public void setDateInvisible();
 
     public void showTraining(Training training);
     public void promptPlateDialog(double weight);

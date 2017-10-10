@@ -32,6 +32,21 @@ public class TrainingInteractor implements Callback<DefaultResponse> {
         call.enqueue(this);
     }
 
+    public void updateTraining(Training training){
+        Call<DefaultResponse> call = webService.updateTraining(training);
+        call.enqueue(new Callback<DefaultResponse>() {
+            @Override
+            public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
+                presenter.onTrainingSavedSuccessfully(response.body().getMessage());
+            }
+
+            @Override
+            public void onFailure(Call<DefaultResponse> call, Throwable t) {
+                presenter.onTrainingSavedFailed(t.getMessage());
+            }
+        });
+    }
+
     public void getNextTraining(String token){
         Call<Training> call = webService.getNextTraining(token);
         call.enqueue(new Callback<Training>() {
@@ -41,6 +56,7 @@ public class TrainingInteractor implements Callback<DefaultResponse> {
                 if(training.isError()){
                     //user has no training history
                     //presenter.noTrainigHistory();
+                    presenter.onNextTrainingFailed(training.getMessage());
                 }
 
                 else{
@@ -51,8 +67,8 @@ public class TrainingInteractor implements Callback<DefaultResponse> {
 
             @Override
             public void onFailure(Call<Training> call, Throwable t) {
-                Log.e("fail", "at fail");
-                Log.e("fail", "at fail");
+                presenter.onNextTrainingFailed("Error connecting to server. Please try again later");
+                Log.e(this.getClass().toString(), "failed call");
             }
         });
     }

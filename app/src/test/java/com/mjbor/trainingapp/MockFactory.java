@@ -105,6 +105,56 @@ public class MockFactory {
             public void promptPlateDialog(double weight) {
 
             }
+
+            @Override
+            public void setButtonVisible() {
+
+            }
+
+            @Override
+            public void setButtonInvisible() {
+
+            }
+
+            @Override
+            public void setProgressBarCenterVisible() {
+
+            }
+
+            @Override
+            public void setProgressBarCenterInvisible() {
+
+            }
+
+            @Override
+            public void setRetryButtonVisible() {
+
+            }
+
+            @Override
+            public void setRetryButtonInvisible() {
+
+            }
+
+            @Override
+            public void setFailedInformation(String message) {
+
+            }
+
+            @Override
+            public void setFailedInformationInvisible() {
+
+            }
+
+            @Override
+            public void setFloatingButtonInvisible() {
+
+            }
+
+            @Override
+            public void setFloatingButtonVisible() {
+
+            }
         };
 
         return iHomeFragment;

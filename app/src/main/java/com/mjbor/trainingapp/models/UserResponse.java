@@ -1,5 +1,7 @@
 package com.mjbor.trainingapp.models;
 
+import java.util.List;
+
 /**
 * Created by mjbor on 9/18/2017.
 */
@@ -8,7 +10,7 @@ public class UserResponse
 {
     private String message;
 
-    private String username;
+    private String avatar;
 
     private String id_user;
 
@@ -18,9 +20,26 @@ public class UserResponse
 
     private String name;
 
-    private Exercise[] exercises;
+    private List<Exercise> exercises;
 
     private String surname;
+    private String cover;
+
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
     public String getMessage ()
     {
@@ -32,15 +51,6 @@ public class UserResponse
         this.message = message;
     }
 
-    public String getUsername ()
-    {
-        return username;
-    }
-
-    public void setUsername (String username)
-    {
-        this.username = username;
-    }
 
     public String getId_user ()
     {
@@ -82,13 +92,15 @@ public class UserResponse
         this.name = name;
     }
 
-    public Exercise[] getExercises ()
-    {
+    public boolean isError() {
+        return error;
+    }
+
+    public List<Exercise> getExercises() {
         return exercises;
     }
 
-    public void setExercises (Exercise[] exercises)
-    {
+    public void setExercises(List<Exercise> exercises) {
         this.exercises = exercises;
     }
 
@@ -105,7 +117,7 @@ public class UserResponse
     @Override
     public String toString()
     {
-        return "ClassPojo [message = "+message+", username = "+username+", id_user = "+id_user+", error = "+error+", email = "+email+", name = "+name+", exercises = "+exercises+", surname = "+surname+"]";
+        return "ClassPojo [message = "+message+", id_user = "+id_user+", error = "+error+", email = "+email+", name = "+name+", exercises = "+exercises+", surname = "+surname+"]";
     }
 }
 

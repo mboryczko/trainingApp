@@ -18,7 +18,13 @@ public interface TrainingWebService {
     @POST("createTraining.php")
     Call<DefaultResponse> createTraining(@Body Training training);
 
+    @POST("updateTraining.php")
+    Call<DefaultResponse> updateTraining(@Body Training training);
+
     @FormUrlEncoded
     @POST("getNextTraining.php")
     Call<Training> getNextTraining(@Field("token") String token);
+
+
+
 }

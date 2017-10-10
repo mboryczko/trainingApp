@@ -6,30 +6,38 @@ package com.mjbor.trainingapp.models;
 
 public class User {
 
-    private String username;
     private String email;
     private String password;
     private String name;
     private String surname;
+    private String avatar;
+    private String cover;
 
     public User(){
 
     }
 
-    public User(String username, String email, String password, String name, String surname) {
-        this.username = username;
+    public User(String email, String password, String name, String surname) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.surname = surname;
     }
 
-    public String getUsername() {
-        return username;
+    public String getCover() {
+        return cover;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setCover(String cover) {
+        this.cover = cover;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getEmail() {

@@ -34,13 +34,13 @@ public class TrainingAdapter extends RecyclerView.Adapter<TrainingAdapter.ViewHo
     private List<Exercise> exercises;
     private List<CircleAdapter> circleAdapterList;
     private Context context;
+    private boolean trainingView;
 
-    public TrainingAdapter(List<Exercise> exercises, Context context) {
+    public TrainingAdapter(List<Exercise> exercises, Context context, boolean trainingView) {
         this.exercises = exercises;
         this.context = context;
-
+        this.trainingView = trainingView;
         circleAdapterList = new ArrayList<>();
-
     }
 
     @Override
@@ -96,7 +96,20 @@ public class TrainingAdapter extends RecyclerView.Adapter<TrainingAdapter.ViewHo
 
         List<Circle> circles = new ArrayList<>();
         for(int i=0; i< reps.size(); i++){
-            circles.add(new Circle(Color.rgb(205,205,205), 0, reps.get(i)));
+            //circles.add(new Circle(Color.rgb(205,205,205), 0, reps.get(i)));
+            if(trainingView){
+                //last training
+                //second parameter (value - has to be as it was)
+                circles.add(new Circle(Color.rgb(205,205,205), reps.get(i), exercise.getReps_to_do()));
+            }
+
+            else {
+                //next training
+                //second parameter (value - has to be 0)
+                circles.add(new Circle(Color.rgb(205,205,205), 0, exercise.getReps_to_do()));
+            }
+
+            //circles.add(new Circle(Color.rgb(205,205,205), reps.get(i), exercise.getReps_to_do()));
             //reps.set(i, -1);
         }
 

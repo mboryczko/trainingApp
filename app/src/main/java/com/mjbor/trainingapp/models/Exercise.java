@@ -1,12 +1,13 @@
 package com.mjbor.trainingapp.models;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by mjbor on 9/19/2017.
  */
 
-public class Exercise
+public class Exercise implements Serializable
 {
     private List<Integer> reps;
 
