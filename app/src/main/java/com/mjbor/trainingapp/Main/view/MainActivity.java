@@ -3,6 +3,7 @@ package com.mjbor.trainingapp.Main.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
@@ -22,11 +23,12 @@ import com.mjbor.trainingapp.Profile.ProfileFragment;
 import com.mjbor.trainingapp.Progress.ProgressFragment;
 import com.mjbor.trainingapp.R;
 import com.mjbor.trainingapp.Training.view.TrainingActivity;
-import com.mjbor.trainingapp.TrainingShow.TrainingShow;
 import com.mjbor.trainingapp.Utils.Constants;
+import com.mjbor.trainingapp.app.TrainingApplication;
 import com.mjbor.trainingapp.models.Training;
 import com.mjbor.trainingapp.sessions.ISessionManager;
-import com.mjbor.trainingapp.sessions.SessionManager;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,15 +39,14 @@ public class MainActivity extends AppCompatActivity implements IMainView,
         SwipeRefreshLayout.OnRefreshListener,
         HomeFragment.OnTrainingFetched{
 
-    @BindView(R.id.bottom_navigation)
-    BottomNavigationView bottomNavigationView;
-    @BindView(R.id.viewpager)
-    ViewPager viewPager;
-    public @BindView(R.id.swipeRefreshLayout)
-    SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.bottom_navigation) BottomNavigationView bottomNavigationView;
+    @BindView(R.id.viewpager) ViewPager viewPager;
+    public @BindView(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
 
     private MainPresenter presenter;
-    private ISessionManager session;
+
+    @Inject
+    ISessionManager session;
 
     private HomeFragment homeFragment;
     private ProgressFragment progressFragment;
@@ -64,8 +65,8 @@ public class MainActivity extends AppCompatActivity implements IMainView,
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-
-        session = new SessionManager(this);
+        ((TrainingApplication)getApplication()).getAppComponent().inject(this);
+//        session = new SessionManager(this);
         presenter = new MainPresenter(this, session);
 
 
@@ -234,6 +235,32 @@ public class MainActivity extends AppCompatActivity implements IMainView,
     private void enableDisableSwipeRefresh(boolean enable) {
         if (swipeRefreshLayout != null) {
             swipeRefreshLayout.setEnabled(enable);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case Constants.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    progressFragment.presenter.storagePermissionGranted();
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
         }
     }
 }

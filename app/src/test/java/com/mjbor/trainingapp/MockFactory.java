@@ -27,6 +27,11 @@ public class MockFactory {
             public void refreshData() {
 
             }
+
+            @Override
+            public void trainingFetched(Training trainingFetched) {
+
+            }
         };
 
         return iHomeFragment;
@@ -70,6 +75,16 @@ public class MockFactory {
 
     public static ITrainingView mockTrainingFragment(){
         ITrainingView iHomeFragment = new ITrainingView() {
+            @Override
+            public void setDateVisible() {
+
+            }
+
+            @Override
+            public void setDateInvisible() {
+
+            }
+
             @Override
             public void goHomeWithoutStack() {
 

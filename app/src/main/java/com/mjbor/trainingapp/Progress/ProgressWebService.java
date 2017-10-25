@@ -1,5 +1,6 @@
 package com.mjbor.trainingapp.Progress;
 
+import com.mjbor.trainingapp.models.AllChartResponse;
 import com.mjbor.trainingapp.models.ChartResponse;
 import com.mjbor.trainingapp.models.Training;
 
@@ -16,5 +17,7 @@ public interface ProgressWebService {
 
     @FormUrlEncoded
     @POST("getChartPoints.php")
-    Call<ChartResponse> getChartPoints(@Field("token") String token);
+    Call<AllChartResponse> getChartPoints(@Field("token") String token);
+
+
 }

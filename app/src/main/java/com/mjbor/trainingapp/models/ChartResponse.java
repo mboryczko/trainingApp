@@ -9,12 +9,11 @@ import java.util.List;
 public class ChartResponse
 {
     private String message;
-
-    private List<ChartPoint> squat;
+    private String exerciseName;
+    private List<ChartPoint> exercise;
 
     private boolean error;
 
-    private List<ChartPoint> bench;
 
     public String getMessage() {
         return message;
@@ -24,12 +23,12 @@ public class ChartResponse
         this.message = message;
     }
 
-    public List<ChartPoint> getSquat() {
-        return squat;
+    public String getExerciseName() {
+        return exerciseName;
     }
 
-    public void setSquat(List<ChartPoint> squat) {
-        this.squat = squat;
+    public void setExerciseName(String exerciseName) {
+        this.exerciseName = exerciseName;
     }
 
     public boolean isError() {
@@ -40,18 +39,13 @@ public class ChartResponse
         this.error = error;
     }
 
-    public List<ChartPoint> getBench() {
-        return bench;
+
+    public List<ChartPoint> getExercise() {
+        return exercise;
     }
 
-    public void setBench(List<ChartPoint> bench) {
-        this.bench = bench;
-    }
-
-    @Override
-    public String toString()
-    {
-        return "ClassPojo [message = "+message+", squat = "+squat+", error = "+error+", bench = "+bench+"]";
+    public void setExercise(List<ChartPoint> exercise) {
+        this.exercise = exercise;
     }
 }
 

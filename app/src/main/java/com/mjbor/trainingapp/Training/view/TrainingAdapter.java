@@ -83,7 +83,7 @@ public class TrainingAdapter extends RecyclerView.Adapter<TrainingAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Exercise exercise = exercises.get(position);
-        if(!isMainExercise(exercise.getName())){
+        if(!isMainExercise(exercise.getName()) && !trainingView){
             holder.deleteIV.setVisibility(View.VISIBLE);
         }
 
@@ -132,6 +132,7 @@ public class TrainingAdapter extends RecyclerView.Adapter<TrainingAdapter.ViewHo
     @Override
     public void recyclerViewListClicked(int row, int position, int value) {
         exercises.get(row).setReps(position, value);
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

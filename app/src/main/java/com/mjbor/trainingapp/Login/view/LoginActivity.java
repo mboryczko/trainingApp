@@ -33,6 +33,7 @@ import com.mjbor.trainingapp.Main.view.MainActivity;
 import com.mjbor.trainingapp.R;
 import com.mjbor.trainingapp.Register.dialog.TrainingHistoryDialog;
 import com.mjbor.trainingapp.Register.view.RegisterActivity;
+import com.mjbor.trainingapp.app.TrainingApplication;
 import com.mjbor.trainingapp.models.User;
 import com.mjbor.trainingapp.sessions.ISessionManager;
 import com.mjbor.trainingapp.sessions.SessionManager;
@@ -44,6 +45,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,7 +64,9 @@ public class LoginActivity extends AppCompatActivity
     @BindView(R.id.progress_bar) ProgressBar progressBar;
     @BindView(R.id.login_button) LoginButton loginButton;
     private LoginPresenter presenter;
-    private ISessionManager session;
+
+    @Inject
+    ISessionManager session;
     private CallbackManager callbackManager;
 
     private TrainingHistoryDialog dialog;
@@ -74,13 +79,16 @@ public class LoginActivity extends AppCompatActivity
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
+
+        ((TrainingApplication)getApplication()).getAppComponent().inject(this);
+
         loginButton.setReadPermissions("email");
         callbackManager = CallbackManager.Factory.create();
 
         //LoginManager.getInstance().registerCallback(callbackManager, this);
         loginButton.registerCallback(callbackManager, this);
 
-        session = new SessionManager(this);
+        //session = new SessionManager(this);
         presenter = new LoginPresenter(this, session);
     }
 

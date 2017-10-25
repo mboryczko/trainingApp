@@ -79,5 +79,14 @@
     <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
     <string name="play_again">Play Again</string>
 
+    <string-array name="exercises_array">
+        <item>All</item>
+        <item>Squat</item>
+        <item>Bench press</item>
+        <item>Barbell row</item>
+        <item>Over head press</item>
+        <item>Deadlift</item>
+    </string-array>
+
 
 </resources>

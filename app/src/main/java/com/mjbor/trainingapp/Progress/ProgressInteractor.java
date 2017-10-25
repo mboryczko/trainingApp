@@ -2,9 +2,13 @@ package com.mjbor.trainingapp.Progress;
 
 import android.util.Log;
 
+import com.mjbor.trainingapp.models.AllChartResponse;
+import com.mjbor.trainingapp.models.ChartPoint;
 import com.mjbor.trainingapp.models.ChartResponse;
 import com.mjbor.trainingapp.models.UserResponse;
 import com.mjbor.trainingapp.rest.ApiClient;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -14,7 +18,7 @@ import retrofit2.Response;
  * Created by mjbor on 10/3/2017.
  */
 
-public class ProgressInteractor implements Callback<ChartResponse> {
+public class ProgressInteractor implements Callback<AllChartResponse> {
 
 
     private ProgressPresenter presenter;
@@ -26,27 +30,30 @@ public class ProgressInteractor implements Callback<ChartResponse> {
     }
 
     public void getAllChartPoints(String token){
-        Call<ChartResponse> call = webService.getChartPoints(token);
+        Call<AllChartResponse> call = webService.getChartPoints(token);
         call.enqueue(this);
     }
 
+
     @Override
-    public void onResponse(Call<ChartResponse> call, Response<ChartResponse> response) {
-        ChartResponse chartResponse = response.body();
-        String serverMessage = chartResponse.getMessage();
+    public void onResponse(Call<AllChartResponse> call, Response<AllChartResponse> response) {
+        AllChartResponse allChartResponse = response.body();
+        //String serverMessage = allChartResponse.getList().get(0).getMessage();
 
-        if(chartResponse.isError()){
+        //TODO
+       /* if(chartResponse.isError()){
             presenter.onUserDataFetchedFailed(serverMessage);
-        }
+        }*/
 
-        else{
-            presenter.onUserDataFetchedSuccessfully(chartResponse);
-        }
+        /*else{
+            presenter.onAllUserDataFetchedSuccessfully(allChartResponse);
+        }*/
 
+        presenter.onAllUserDataFetchedSuccessfully(allChartResponse);
     }
 
     @Override
-    public void onFailure(Call<ChartResponse> call, Throwable t) {
+    public void onFailure(Call<AllChartResponse> call, Throwable t) {
         Log.e("ProgressInteractor", t.getMessage().toString());
     }
 }

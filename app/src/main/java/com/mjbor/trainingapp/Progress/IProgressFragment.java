@@ -1,6 +1,12 @@
 package com.mjbor.trainingapp.Progress;
 
+import android.graphics.Bitmap;
+
+import com.mjbor.trainingapp.models.AllChartResponse;
 import com.mjbor.trainingapp.models.ChartResponse;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by mjbor on 10/3/2017.
@@ -8,7 +14,20 @@ import com.mjbor.trainingapp.models.ChartResponse;
 
 public interface IProgressFragment {
 
-    public void showAllCharts(ChartResponse chartResponse);
+    boolean checkPermissions();
+    void requestPermissions();
+/*    void saveChart(String exerciseName);*/
+    void invalidateChart();
 
-    public void showChart(ChartResponse chartResponse);
+    void showToast(String message);
+
+    void loadCharts(AllChartResponse allChartResponse);
+    void clearEntries();
+
+    void addEntry(float x, float y);
+    void addDataSet(String labelName);
+    void styleDataSet(String hexColorLine, String hexColorDot, float lineWidth);
+
+    void loadChart(ChartResponse chartResponse, HashMap<Integer, String> map);
+    Bitmap getChartBitmap();
 }

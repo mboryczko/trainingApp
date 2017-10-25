@@ -1,12 +1,25 @@
 package com.mjbor.trainingapp.Progress;
 
 
+import android.Manifest;
+import android.content.pm.FeatureInfo;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -15,30 +28,49 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.utils.EntryXComparator;
+import com.github.mikephil.charting.utils.FileUtils;
 import com.mjbor.trainingapp.Profile.ProfilePresenter;
 import com.mjbor.trainingapp.R;
+import com.mjbor.trainingapp.Utils.ColorUtils;
 import com.mjbor.trainingapp.Utils.Constants;
+import com.mjbor.trainingapp.Utils.DateUtils;
+import com.mjbor.trainingapp.Utils.FilesUtils;
+import com.mjbor.trainingapp.models.AllChartResponse;
 import com.mjbor.trainingapp.models.ChartPoint;
 import com.mjbor.trainingapp.models.ChartResponse;
+import com.mjbor.trainingapp.pdfCreator.FirstPdf;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ProgressFragment extends Fragment
-implements IProgressFragment{
+implements IProgressFragment,
+        AdapterView.OnItemSelectedListener {
 
-    private LineChart chart;
 
+    @BindView(R.id.spinner) Spinner spinner;
+    @BindView(R.id.chart) LineChart chart;
+    @BindView(R.id.saveChart) ImageView saveChart;
+
+    //private LineChart chart;
+    private List<Entry> entries = new ArrayList<>();
+    private LineDataSet dataSet;
     public ProgressPresenter presenter;
 
     public ProgressFragment() {
@@ -54,47 +86,167 @@ implements IProgressFragment{
 
     }
 
-    /*
-        data: date - weight, date - weight, date - weight ...
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+        clearData();
+        String exercise = (String)parent.getItemAtPosition(pos);
+        presenter.onExerciseChoosen(exercise);
+    }
 
 
+    public void clearData(){
+        entries = new ArrayList<>();
 
+    }
 
-     */
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
 
 
     @Override
-    public void showChart(ChartResponse chartResponse) {
-        List<ChartPoint> squatData = chartResponse.getSquat();
+    public boolean checkPermissions(){
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }
+        return false;
+    }
 
+    @Override
+    public void requestPermissions() {
+        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                Constants.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL);
+    }
 
-        final HashMap<Integer, String> numMap = new HashMap<>();
-        List<Entry> entries = new ArrayList<Entry>();
-
-        Date firstDate = chartResponse.getSquat().get(0).getTraining_date();
-
-        for(int i=0; i<squatData.size(); i++){
-            ChartPoint chartPoint = squatData.get(i);
-            Date currentDate = chartPoint.getTraining_date();
-            int daysBetween = getDifferenceDays(firstDate, currentDate);
-
-            String pattern = "MMM-dd";
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, Locale.ENGLISH);
-            String date = simpleDateFormat.format(chartPoint.getTraining_date());
-
-            numMap.put(daysBetween, date);
-            entries.add(new Entry(daysBetween, squatData.get(i).getWeight()));
-
+/*    @Override
+    public void saveChart(String fileName) {
+        presenter.saveClicked();
+        //presenter iterates over AllChartResponses -> for each loads chart and saves it
+        //String path = FilesUtils.getSaveFileDirectory();
+        String pathToChart = FilesUtils.createFileInDirectory("/trainingAppCharts", fileName);
+        if(chart.saveToPath(fileName, "/Download/trainingAppCharts")){
+            showToast("Image saved sucessfully");
+            savePdf(fileName);
         }
 
-        LineDataSet dataSet = new LineDataSet(entries, "Squat");
+        else{
+            showToast("Image failed to save.");
+        }
+    }*/
+
+    @Override
+    public Bitmap getChartBitmap() {
+        return chart.getChartBitmap();
+    }
+
+    public void savePdf(String pdfName){
+        FirstPdf.createPdf( pdfName);
+    }
 
 
-        dataSet.setColor(Color.GREEN);
-        dataSet.setCircleColor(Color.BLACK);
-        dataSet.setLineWidth(2.0f);
+    @Override
+    public void showToast(String message) {
+        Toast.makeText(getContext(),message, Toast.LENGTH_LONG).show();
+    }
 
+    public void loadCharts(AllChartResponse allChartResponse){
+        List<ChartResponse> listOfResponses = allChartResponse.getList();
+        List<List<Entry>> listOfEntries = new ArrayList<>();
+        List<LineDataSet> listOfDataSet = new ArrayList<>();
+
+        String pattern = "MMM-dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, Locale.ENGLISH);
+        final HashMap<Integer, String> numMap = new HashMap<>();
+        Date currentFirstDate = listOfResponses.get(0).getExercise().get(0).getTraining_date();
+
+        for(int j=0; j<listOfResponses.size(); j++){
+            ChartResponse chartResponse = listOfResponses.get(j);
+            List<ChartPoint> exerciseData = chartResponse.getExercise();
+            listOfEntries.add(new ArrayList<Entry>());
+
+
+            Date firstDate = chartResponse.getExercise().get(0).getTraining_date();
+
+            if(currentFirstDate.after(firstDate)){
+                currentFirstDate = firstDate;
+            }
+
+            for(int i=0; i<exerciseData.size(); i++){
+                ChartPoint chartPoint = exerciseData.get(i);
+                Date currentDate = chartPoint.getTraining_date();
+                int daysBetween = DateUtils.getDifferenceDays(currentFirstDate, currentDate);
+
+
+                String date = simpleDateFormat.format(chartPoint.getTraining_date());
+
+                numMap.put(daysBetween, date);
+                listOfEntries.get(j).add(new Entry(daysBetween, exerciseData.get(i).getWeight()));
+            }
+
+            Collections.sort(listOfEntries.get(j), new EntryXComparator());
+            LineDataSet lineDataSet = new LineDataSet(listOfEntries.get(j), chartResponse.getExerciseName());
+            lineDataSet.setColor(ColorUtils.getColor(j));
+            listOfDataSet.add(lineDataSet);
+        }
+
+
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
+
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+
+                String text = numMap.get((int)value);
+                return text != null ? text : "";
+            }
+
+        });
+
+
+        //LineData lineData = new LineData(listOfDataSet.get(0), listOfDataSet.get(1), listOfDataSet.get(2), listOfDataSet.get(3));
+        LineData lineData = new LineData(listOfDataSet.toArray(new LineDataSet[listOfDataSet.size()]));
+        chart.setData(lineData);
+        //chart.invalidate();
+
+    }
+
+    @Override
+    public void invalidateChart(){
+        chart.invalidate();
+    }
+
+    @Override
+    public void addEntry(float x, float y) {
+        entries.add(new Entry(x, y));
+    }
+
+    @Override
+    public void clearEntries() {
+        entries.clear();
+    }
+
+    @Override
+    public void addDataSet(String labelName) {
+        Collections.sort(entries, new EntryXComparator());
+        dataSet = new LineDataSet(entries, labelName);
+    }
+
+    @Override
+    public void styleDataSet(String hexColorLine, String hexColorDot, float lineWidth) {
+        dataSet.setColor(Color.parseColor(hexColorLine));
+        dataSet.setCircleColor(Color.parseColor(hexColorDot));
+        dataSet.setLineWidth(lineWidth);
+    }
+
+
+    @Override
+    public void loadChart(ChartResponse chartResponse,  HashMap<Integer, String> map) {
+
+        final HashMap<Integer, String> numMap = map;
         LineData data = new LineData(dataSet);
         XAxis xAxis = chart.getXAxis();
         xAxis.setValueFormatter(new IAxisValueFormatter() {
@@ -110,19 +262,10 @@ implements IProgressFragment{
 
 
         chart.setData(data);
-        chart.invalidate();
+        //chart.invalidate();
 
     }
 
-    public static int getDifferenceDays(Date d1, Date d2) {
-        long diff = d2.getTime() - d1.getTime();
-        return (int)TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-    }
-
-    @Override
-    public void showAllCharts(ChartResponse chartResponse) {
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -131,25 +274,17 @@ implements IProgressFragment{
         View view  = inflater.inflate(R.layout.fragment_progress, container, false);
         ButterKnife.bind(this, view);
 
-        chart = view.findViewById(R.id.chart);
-
-
-        /*
-        List<Entry> entries = new ArrayList<Entry>();
-
-        for (int i=0; i<10; i++) {
-
-            // turn your data into Entry objects
-            entries.add(new Entry(i, i*i));
-        }
-
-        LineDataSet dataSet = new LineDataSet(entries, "Label"); // add entries to dataset
-        dataSet.setColor(Color.YELLOW);
-        dataSet.setValueTextColor(Color.BLACK); // s
-
-        LineData lineData = new LineData(dataSet);
-        chart.setData(lineData);
-        chart.invalidate(); // refresh*/
+        /*ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.exercises_array, R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown);
+        spinner.setAdapter(adapter);*/
+        spinner.setOnItemSelectedListener(this);
+        saveChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.saveClicked();
+            }
+        });
 
         return view;
     }

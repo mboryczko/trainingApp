@@ -4,6 +4,7 @@ import com.mjbor.trainingapp.Home.HomePresenter;
 import com.mjbor.trainingapp.Home.IHomeFragment;
 import com.mjbor.trainingapp.Register.presenter.RegisterPresenter;
 import com.mjbor.trainingapp.Register.view.IRegisterView;
+import com.mjbor.trainingapp.models.Training;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -35,6 +36,11 @@ public class HomePresenterTests {
 
             @Override
             public void refreshData() {
+
+            }
+
+            @Override
+            public void trainingFetched(Training trainingFetched) {
 
             }
         };

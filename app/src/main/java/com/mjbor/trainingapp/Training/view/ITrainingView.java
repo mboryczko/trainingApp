@@ -28,8 +28,14 @@ public interface ITrainingView {
     public void setFailedInformationInvisible();
     public void setFloatingButtonInvisible();
     public void setFloatingButtonVisible();
-    public void setDateVisible();
-    public void setDateInvisible();
+    public void setTimeAndDateVisible();
+    public void setTimeAndDateInvisible();
+    public void setInfoVisible();
+    public void setInfoInvisible();
+    public void setTimeAndDateText(String text);
+    public void setInfoText(String text);
+    public void startTimer();
+    public void resetTimer();
 
     public void showTraining(Training training);
     public void promptPlateDialog(double weight);

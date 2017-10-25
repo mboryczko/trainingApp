@@ -13,24 +13,35 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
 import com.mjbor.trainingapp.Login.view.LoginActivity;
+import com.mjbor.trainingapp.Utils.Constants;
+import com.mjbor.trainingapp.app.TrainingApplication;
+
+import javax.inject.Inject;
+
+import static com.mjbor.trainingapp.Utils.Constants.TOKEN;
 
 
 public class SessionManager implements ISessionManager {
     // Shared Preferences
-    SharedPreferences pref;
-    Editor editor;
+
+    @Inject SharedPreferences pref;
+    @Inject Editor editor;
+
     Context _context;
 
-    int PRIVATE_MODE = 0;
+/*    int PRIVATE_MODE = 0;
     private static final String PREF_NAME = "com.mjbor";
     private static final String IS_LOGIN = "IsLoggedIn";
-    public static final String TOKEN = "token";
+    public static final String TOKEN = "token";*/
 
-    // Constructor
+
+
     public SessionManager(Context context) {
         this._context = context;
-        pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
-        editor = pref.edit();
+        ((TrainingApplication)context).getAppComponent().inject(this);
+
+        /*pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        editor = pref.edit();*/
     }
 
 
@@ -44,7 +55,7 @@ public class SessionManager implements ISessionManager {
      * */
     public void createLoginSession(String token){
         // Storing login value as TRUE
-        editor.putBoolean(IS_LOGIN, true);
+        editor.putBoolean(Constants.IS_LOGIN, true);
         editor.putString(TOKEN, token);
 
         // commit changes
@@ -102,7 +113,7 @@ public class SessionManager implements ISessionManager {
      * **/
     // Get Login State
     public boolean isLoggedIn(){
-        return pref.getBoolean(IS_LOGIN, false);
+        return pref.getBoolean(Constants.IS_LOGIN, false);
     }
 
 }

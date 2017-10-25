@@ -6,7 +6,10 @@ import android.widget.Toast;
 
 import com.mjbor.trainingapp.Training.model.TrainingInteractor;
 import com.mjbor.trainingapp.Training.view.ITrainingView;
+import com.mjbor.trainingapp.Utils.Constants;
+import com.mjbor.trainingapp.Utils.StringUtils;
 import com.mjbor.trainingapp.models.Exercise;
+import com.mjbor.trainingapp.models.SetEvent;
 import com.mjbor.trainingapp.models.Training;
 import com.mjbor.trainingapp.sessions.ISessionManager;
 
@@ -14,6 +17,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by mjbor on 9/18/2017.
@@ -28,13 +32,18 @@ public class TrainingPresenter {
     private TrainingInteractor interactor;
     private ISessionManager sessionManager;
     private String token;
-
+    private String additionalInfo;
 
     public TrainingPresenter(ITrainingView view, ISessionManager sessionManager){
         this.view = view;
         this.interactor = new TrainingInteractor(this);
         this.sessionManager = sessionManager;
         this.token = sessionManager.getUserToken();
+
+
+        view.startTimer();
+        view.setTimeAndDateInvisible();
+        view.setInfoInvisible();
 
         getNextTraining();
     }
@@ -47,7 +56,8 @@ public class TrainingPresenter {
         this.token = sessionManager.getUserToken();
 
         view.setFloatingButtonInvisible();
-        view.setDateVisible();
+        view.setTimeAndDateVisible();
+        view.setInfoInvisible();
 
         showTraining(training);
     }
@@ -72,6 +82,7 @@ public class TrainingPresenter {
 
     public void showTraining(Training training){
 
+        view.setTimeAndDateText(training.getTraining_date());
         view.setProgressBarCenterInvisible();
         view.setProgressBarInvisible();
         view.setButtonVisible();
@@ -83,6 +94,7 @@ public class TrainingPresenter {
         view.setProgressBarCenterInvisible();
         view.setFloatingButtonVisible();
         view.setButtonVisible();
+        view.setTimeAndDateText(training.getTraining_date());
         view.showTraining(training);
     }
 
@@ -93,6 +105,15 @@ public class TrainingPresenter {
 
     }
 
+    public void onSetCompleted(SetEvent event){
+        view.setTimeAndDateVisible();
+        view.resetTimer();
+        view.setInfoVisible();
+
+
+        view.setInfoText(event.getMessage() +
+                "\n" + Constants.REST_INFO);
+    }
 
     public void updateTraining(Training training){
         if(validateTraining(training)){
@@ -111,6 +132,22 @@ public class TrainingPresenter {
             view.toast("Please provide all data");
         }
     }
+
+
+    //should be triggered every second
+    public void calculateTime(int seconds){
+        int timeMinutes, timeSeconds;
+
+
+        timeMinutes = (int)(seconds/60);
+        timeSeconds = seconds % 60;
+
+        String timeToShow = StringUtils.formatNumber(timeMinutes) + ":" + StringUtils.formatNumber(timeSeconds);
+
+
+        view.setTimeAndDateText(timeToShow);
+    }
+
 
     public void saveTraining(Training training){
         if(validateTraining(training)){

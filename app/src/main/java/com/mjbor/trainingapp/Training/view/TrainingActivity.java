@@ -1,6 +1,7 @@
 package com.mjbor.trainingapp.Training.view;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -22,14 +23,22 @@ import com.mjbor.trainingapp.Training.newExercise.NewExerciseDialog;
 import com.mjbor.trainingapp.Training.plateCalculator.PlateCalculatorDialog;
 import com.mjbor.trainingapp.Training.presenter.TrainingPresenter;
 import com.mjbor.trainingapp.Utils.Constants;
+import com.mjbor.trainingapp.app.TrainingApplication;
 import com.mjbor.trainingapp.models.Exercise;
+import com.mjbor.trainingapp.models.SetEvent;
 import com.mjbor.trainingapp.models.Training;
 import com.mjbor.trainingapp.sessions.ISessionManager;
 import com.mjbor.trainingapp.sessions.SessionManager;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,7 +48,9 @@ public class TrainingActivity extends AppCompatActivity
         PlateCalculatorDialog.PlateCalculatorListener,
         NewExerciseDialog.NewExerciseListener{
 
-    @BindView(R.id.trainingDateTV) TextView trainingDateTV;
+
+    @BindView(R.id.timerAndDateTV) TextView timerAndDateTV;
+    @BindView(R.id.infoTV) TextView infoTV;
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
     @BindView(R.id.progressBarTraining) ProgressBar progressBar;
     @BindView(R.id.saveTrainingButton) Button saveTrainingButton;
@@ -54,9 +65,12 @@ public class TrainingActivity extends AppCompatActivity
     boolean trainingView;
 
     private TextView weightTV;
+    private int seconds;
+    private boolean running;
 
     private TrainingPresenter presenter;
-    private ISessionManager session;
+
+    @Inject ISessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +78,13 @@ public class TrainingActivity extends AppCompatActivity
         setContentView(R.layout.activity_training);
         ButterKnife.bind(this);
 
+        ((TrainingApplication)getApplication()).getAppComponent().inject(this);
         this.training = (Training)getIntent().getSerializableExtra(Constants.TRAINING);
 
 
         disableKeyboardOnStart();
 
-        session = new SessionManager(this);
+        //session = new SessionManager(this);
         if(training != null){
             //training only to view
             trainingView = true;
@@ -88,7 +103,25 @@ public class TrainingActivity extends AppCompatActivity
 
     }
 
+    // This method will be called when a MessageEvent is posted (in the UI thread for Toast)
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(SetEvent event) {
 
+        if(!trainingView)
+            presenter.onSetCompleted(event);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
 
     @Override
     public void onDialogPositiveCheck(DialogFragment dialog, Exercise exercise) {
@@ -129,7 +162,7 @@ public class TrainingActivity extends AppCompatActivity
     @Override
     public void showTraining(Training training) {
         this.training = training;
-        trainingDateTV.setText(training.getTraining_date());
+        timerAndDateTV.setText(training.getTraining_date());
         adapter = new TrainingAdapter(training.getExercises(), this, trainingView);
         recyclerView.setAdapter(adapter);
 
@@ -149,6 +182,30 @@ public class TrainingActivity extends AppCompatActivity
             presenter.saveTraining(training);
         }
 
+    }
+
+    @Override
+    public void startTimer() {
+        running = true;
+        seconds = 0;
+
+        final Handler handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                seconds++;
+                presenter.calculateTime(seconds);
+                if(running){
+                    handler.postDelayed(this, 1000);
+                }
+            }
+        });
+    }
+
+
+    @Override
+    public void resetTimer() {
+        seconds = 0;
     }
 
     public void retryClick(View v){
@@ -173,14 +230,35 @@ public class TrainingActivity extends AppCompatActivity
 
     }
 
+
     @Override
-    public void setDateVisible() {
-        trainingDateTV.setVisibility(View.VISIBLE);
+    public void setTimeAndDateVisible() {
+        timerAndDateTV.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void setDateInvisible() {
-        trainingDateTV.setVisibility(View.GONE);
+    public void setTimeAndDateInvisible() {
+        timerAndDateTV.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void setInfoVisible() {
+        infoTV.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void setInfoInvisible() {
+        infoTV.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void setTimeAndDateText(String text) {
+        timerAndDateTV.setText(text);
+    }
+
+    @Override
+    public void setInfoText(String text) {
+        infoTV.setText(text);
     }
 
     @Override
@@ -190,7 +268,7 @@ public class TrainingActivity extends AppCompatActivity
 
     @Override
     public void setProgressBarCenterInvisible() {
-        progressBarCenter.setVisibility(View.INVISIBLE);
+        progressBarCenter.setVisibility(View.GONE);
     }
 
     @Override
@@ -200,7 +278,7 @@ public class TrainingActivity extends AppCompatActivity
 
     @Override
     public void setRetryButtonInvisible() {
-        retryButton.setVisibility(View.INVISIBLE);
+        retryButton.setVisibility(View.GONE);
     }
 
     @Override
@@ -212,12 +290,12 @@ public class TrainingActivity extends AppCompatActivity
 
     @Override
     public void setFailedInformationInvisible() {
-        failInformation.setVisibility(View.INVISIBLE);
+        failInformation.setVisibility(View.GONE);
     }
 
     @Override
     public void setFloatingButtonInvisible() {
-        floatingActionButton.setVisibility(View.INVISIBLE);
+        floatingActionButton.setVisibility(View.GONE);
     }
 
     @Override

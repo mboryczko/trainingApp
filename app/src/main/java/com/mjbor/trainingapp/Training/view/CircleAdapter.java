@@ -13,6 +13,9 @@ import android.widget.TextView;
 import com.mjbor.trainingapp.R;
 import com.mjbor.trainingapp.Training.model.Circle;
 import com.mjbor.trainingapp.models.Exercise;
+import com.mjbor.trainingapp.models.SetEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -114,6 +117,15 @@ public class CircleAdapter extends  RecyclerView.Adapter<CircleAdapter.ViewHolde
 
                     onBindViewHolder(ViewHolder.this, position);
                     itemListener.recyclerViewListClicked(row, getLayoutPosition(), newValue);
+
+                    if(newValue == startValue){
+                        EventBus.getDefault().post(new SetEvent("Congratulations!", false));
+                    }else {
+                        EventBus.getDefault().post(new SetEvent("Failure is part of the game.", true));
+                    }
+
+
+
                 }
             });
 

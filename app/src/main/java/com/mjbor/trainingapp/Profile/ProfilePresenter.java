@@ -3,6 +3,7 @@ package com.mjbor.trainingapp.Profile;
 import android.widget.Button;
 
 import com.mjbor.trainingapp.R;
+import com.mjbor.trainingapp.Utils.StringUtils;
 import com.mjbor.trainingapp.models.Exercise;
 import com.mjbor.trainingapp.models.User;
 import com.mjbor.trainingapp.models.UserResponse;
@@ -50,7 +51,7 @@ public class ProfilePresenter {
         view.setProfileTopName(u.getName());
         view.setProfileSurname(u.getSurname());
         view.setProfileEmail(u.getEmail());
-        view.setBestResults(prepareListOfBestResults(u.getExercises()));
+        view.setBestResults(StringUtils.prepareListOfBestResults(u.getExercises()));
         view.setProfileAsync(u.getAvatar());
         view.setCoverAsync(u.getCover());
 
@@ -60,20 +61,7 @@ public class ProfilePresenter {
     }
 
 
-    public String prepareListOfBestResults(List<Exercise> exercises){
-        String list = "";
-        if(exercises != null){
-            for(Exercise e : exercises){
-                list += "• " + e.getName() + " - " +  e.getWeight() + "\n";
-            }
-        }
 
-        else
-            list = "No records set yet";
-
-
-        return list;
-    }
 
     public void onUserDataFetchedFailed(String serverMssage){
         view.setProfileSurname(serverMssage);
