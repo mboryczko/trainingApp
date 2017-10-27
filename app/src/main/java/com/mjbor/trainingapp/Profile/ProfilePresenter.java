@@ -56,6 +56,7 @@ public class ProfilePresenter {
         view.setCoverAsync(u.getCover());
 
 
+
         view.setCollapsingTootlbarTitle(u.getName());
 
     }

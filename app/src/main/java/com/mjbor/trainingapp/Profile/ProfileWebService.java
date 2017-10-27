@@ -3,6 +3,7 @@ package com.mjbor.trainingapp.Profile;
 import com.mjbor.trainingapp.models.Training;
 import com.mjbor.trainingapp.models.UserResponse;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -16,7 +17,7 @@ public interface ProfileWebService {
 
     @FormUrlEncoded
     @POST("getUserInfo.php")
-    Call<UserResponse> getUserInfo(@Field("token") String token);
+    Observable<UserResponse> getUserInfo(@Field("token") String token);
 
     @FormUrlEncoded
     @POST("getUserInfo.php")

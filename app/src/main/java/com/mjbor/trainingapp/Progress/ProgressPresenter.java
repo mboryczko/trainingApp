@@ -44,7 +44,7 @@ public class ProgressPresenter {
 
     public void saveClicked(){
         permissionGranted = view.checkPermissions();
-        if(permissionGranted){
+        if(permissionGranted && dataFetched){
             Date date = new Date();
             String fileName = date.toString();
             List<ChartResponse> listOfChartResponses = allChartResponse.getList();
