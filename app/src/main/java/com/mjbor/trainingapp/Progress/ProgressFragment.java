@@ -39,7 +39,13 @@ import com.mjbor.trainingapp.Utils.FilesUtils;
 import com.mjbor.trainingapp.models.AllChartResponse;
 import com.mjbor.trainingapp.models.ChartPoint;
 import com.mjbor.trainingapp.models.ChartResponse;
+import com.mjbor.trainingapp.models.SetEvent;
+import com.mjbor.trainingapp.models.UserResponse;
 import com.mjbor.trainingapp.pdfCreator.FirstPdf;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -84,6 +90,24 @@ implements IProgressFragment,
         String token = getArguments().getString(Constants.TOKEN, null);
         this.presenter = new ProgressPresenter(this, token);
 
+    }
+
+    // This method will be called when a MessageEvent is posted (in the UI thread for Toast)
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(UserResponse event) {
+        presenter.onUserProfileDataFetched(event);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 
 

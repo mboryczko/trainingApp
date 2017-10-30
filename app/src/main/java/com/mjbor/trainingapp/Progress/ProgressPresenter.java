@@ -2,11 +2,13 @@ package com.mjbor.trainingapp.Progress;
 
 import android.graphics.Bitmap;
 
+import com.bumptech.glide.Glide;
 import com.mjbor.trainingapp.Utils.Constants;
 import com.mjbor.trainingapp.Utils.DateUtils;
 import com.mjbor.trainingapp.models.AllChartResponse;
 import com.mjbor.trainingapp.models.ChartPoint;
 import com.mjbor.trainingapp.models.ChartResponse;
+import com.mjbor.trainingapp.models.UserResponse;
 import com.mjbor.trainingapp.pdfCreator.FirstPdf;
 
 import java.text.SimpleDateFormat;
@@ -28,10 +30,12 @@ public class ProgressPresenter {
     private String exerciseChoosen;
     private String token;
     private boolean permissionGranted;
-    private boolean dataFetched;
+    private boolean progressDataFetched;
+    private boolean profileDataFetched;
 
-    private List<Bitmap> listOfChartsBitmaps = new ArrayList<>();
+    private List<Bitmap> listOfChartsBitmaps;
     private AllChartResponse allChartResponse;
+    private UserResponse userResponse;
 
 
     public ProgressPresenter(IProgressFragment view, String token){
@@ -44,7 +48,8 @@ public class ProgressPresenter {
 
     public void saveClicked(){
         permissionGranted = view.checkPermissions();
-        if(permissionGranted && dataFetched){
+         listOfChartsBitmaps = new ArrayList<>();
+        if(permissionGranted && progressDataFetched && profileDataFetched){
             Date date = new Date();
             String fileName = date.toString();
             List<ChartResponse> listOfChartResponses = allChartResponse.getList();
@@ -55,12 +60,15 @@ public class ProgressPresenter {
                 listOfChartsBitmaps.add(b);
             }
 
-            if(FirstPdf.createPdf(fileName, listOfChartsBitmaps)){
+
+
+            if(FirstPdf.createPdf(fileName, listOfChartsBitmaps, userResponse)){
                 view.showToast("Report generated successfully");
             }
 
         }else {
-            view.requestPermissions();
+            //view.requestPermissions();
+            view.showToast("You can't do that now :<");
         }
 
     }
@@ -74,13 +82,13 @@ public class ProgressPresenter {
         this.exerciseChoosen = exerciseName;
 
         if(exerciseName.equals("All")){
-            if(dataFetched){
+            if(progressDataFetched){
                 onAllUserDataFetchedSuccessfully(allChartResponse);
             }
         }
 
         else {
-            if(dataFetched){
+            if(progressDataFetched){
                 List<ChartResponse> listOfChartResponses = allChartResponse.getList();
                 //TODO
                 //find object in the list corresponding to the exerciseChoose
@@ -103,9 +111,15 @@ public class ProgressPresenter {
 
     public void onAllUserDataFetchedSuccessfully(AllChartResponse allChartResponse){
         this.allChartResponse = allChartResponse;
-        dataFetched = true;
+        progressDataFetched = true;
         view.loadCharts(allChartResponse);
         view.invalidateChart();
+    }
+
+    public void onUserProfileDataFetched(UserResponse userResponse){
+        this.userResponse = userResponse;
+        profileDataFetched = true;
+
     }
 
 

@@ -3,6 +3,8 @@ package com.mjbor.trainingapp.Profile;
 import com.mjbor.trainingapp.models.UserResponse;
 import com.mjbor.trainingapp.rest.ApiClient;
 
+import org.greenrobot.eventbus.EventBus;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,6 +36,7 @@ public class ProfileInteractor implements Callback<UserResponse> {
 
         else{
             presenter.onUserDataFetchedSuccessfully(userResponse);
+            EventBus.getDefault().post(userResponse);
         }
     }
 
