@@ -11,18 +11,22 @@ import java.io.File;
 
 public class FilesUtils {
 
-
-    public static String createFileInDirectory(String directory, String fileName) {
-        File pdfDirectory = new File(FilesUtils.getSaveFileDirectory() + directory);
-        pdfDirectory.mkdirs();
-        File pdfFile = new File(pdfDirectory, fileName);
-
-        return pdfFile.getAbsolutePath();
-
-    }
-
     public static String getSaveFileDirectory(){
         File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
         return dir.toString();
+    }
+
+
+    public static String createFileInDirectory(String directory, String fileName){
+        //create directory
+        File pdfDirectory = new File(getSaveFileDirectory()+ "/" + directory);
+        pdfDirectory.mkdir();
+
+
+        //create file
+        File pdfFile = new File(pdfDirectory, fileName + ".pdf");
+        String absoluteDestination = pdfFile.getAbsolutePath();
+
+        return absoluteDestination;
     }
 }

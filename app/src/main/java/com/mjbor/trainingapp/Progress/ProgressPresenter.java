@@ -8,6 +8,7 @@ import com.mjbor.trainingapp.Utils.DateUtils;
 import com.mjbor.trainingapp.models.AllChartResponse;
 import com.mjbor.trainingapp.models.ChartPoint;
 import com.mjbor.trainingapp.models.ChartResponse;
+import com.mjbor.trainingapp.models.PdfWrapper;
 import com.mjbor.trainingapp.models.UserResponse;
 import com.mjbor.trainingapp.pdfCreator.FirstPdf;
 
@@ -17,7 +18,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by mjbor on 10/3/2017.
@@ -61,10 +65,12 @@ public class ProgressPresenter {
             }
 
 
-
-            if(FirstPdf.createPdf(fileName, listOfChartsBitmaps, userResponse)){
-                view.showToast("Report generated successfully");
-            }
+            PdfWrapper pdfWrapper = new PdfWrapper(fileName, userResponse, listOfChartsBitmaps);
+            Observable.just(pdfWrapper)
+                    .subscribeOn(Schedulers.computation())
+                    .map(pdf -> FirstPdf.createPdf(pdfWrapper))
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(message -> view.showToast(message));
 
         }else {
             //view.requestPermissions();

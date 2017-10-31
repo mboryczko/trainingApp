@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 
 
 import android.graphics.Bitmap;
+import android.os.FileUriExposedException;
+import android.util.Log;
 
 import com.itextpdf.io.IOException;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -18,13 +20,10 @@ import com.itextpdf.layout.element.Paragraph;
 import com.mjbor.trainingapp.Utils.FilesUtils;
 import com.mjbor.trainingapp.Utils.StringUtils;
 import com.mjbor.trainingapp.models.Exercise;
+import com.mjbor.trainingapp.models.PdfWrapper;
 import com.mjbor.trainingapp.models.UserResponse;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.List;
-
-import retrofit2.http.Path;
 
 /**
  * Created by mjbor on 10/24/2017.
@@ -32,50 +31,17 @@ import retrofit2.http.Path;
 
 public class FirstPdf {
 
-/*
+    public static final String TAG = FirstPdf.class.toString();
 
-    private String destination;
-    public FirstPdf(String destination){
-        this.destination = destination;
-    }
-
-   public static void createPdf(String fileName){
+    public static String createPdf(PdfWrapper wrapper){
         try {
-            //create file
-            File pdfDirectory = new File(FilesUtils.getSaveFileDirectory()+"/trainingAppReports");
-            pdfDirectory.mkdir();
 
-            File pdfFile = new File(pdfDirectory, fileName+".pdf");
-            String absoluteDestination = pdfFile.getAbsolutePath();
-
-            String imagePath = FilesUtils.getSaveFileDirectory() + "/trainingAppCharts/" + fileName + ".png";
-            Image image = new Image(ImageDataFactory.create(imagePath));
-            image.scaleToFit(PageSize.A4.getWidth(), PageSize.A4.getHeight());
+            Log.e(TAG, "Started writing to PDF on" + Thread.currentThread().getName());
+            UserResponse userResponse = wrapper.getUserResponse();
 
 
-            PdfWriter writer = new PdfWriter(absoluteDestination);
-            PdfDocument pdf = new PdfDocument(writer);
-            Document document = new Document(pdf);
-            document.add(new Paragraph("TrainingApp Progress Report"));
-            document.add(new Paragraph().add(image));
-            document.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
-
-    public static boolean createPdf(String fileName, List<Bitmap> listOfChartBitmaps, UserResponse userResponse){
-        try {
-            //create font
-
-            //create directory
-            File pdfDirectory = new File(FilesUtils.getSaveFileDirectory()+"/trainingAppReports");
-            pdfDirectory.mkdir();
-
-
-            //create file
-            File pdfFile = new File(pdfDirectory, fileName+".pdf");
-            String absoluteDestination = pdfFile.getAbsolutePath();
+            String absoluteDestination =
+                    FilesUtils.createFileInDirectory("trainingAppReports", wrapper.getFilename());
 
 
             List<Exercise> exerciseList = userResponse.getExercises();
@@ -92,9 +58,7 @@ public class FirstPdf {
             document.add(new Paragraph("Best exercises: "));
             document.add(new Paragraph(exercisesParagraph));
 
-
-
-           for(Bitmap b : listOfChartBitmaps){
+           for(Bitmap b : wrapper.getListOfChartsBitmaps()){
                Image image = convertBitmapToImage(b);
                image.scaleToFit(PageSize.A4.getWidth()*0.95f, PageSize.A4.getHeight()*0.95f);
                document.add(new Paragraph().add(image));
@@ -103,10 +67,12 @@ public class FirstPdf {
             document.close();
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return "Error writing pdf raport";
         }
 
-        return true;
+        Log.e(TAG, "Started writing to PDF on" + Thread.currentThread().getName());
+
+        return "Raport generated successfully";
     }
 
 
