@@ -167,9 +167,6 @@ implements IProgressFragment,
         return chart.getChartBitmap();
     }
 
-    public void savePdf(String pdfName){
-        FirstPdf.createPdf( pdfName);
-    }
 
 
     @Override

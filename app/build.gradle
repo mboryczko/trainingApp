@@ -22,6 +22,13 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    packagingOptions {
+        exclude 'com/itextpdf/io/font/cmap_info.txt'
+        exclude 'com/itextpdf/io/font/cmap/MSungStd-Light.properties'
+        exclude 'com/itextpdf/io/font/cmap/STSong-Light.properties'
+        exclude 'com/itextpdf/io/font/cmap/HYSMyeongJoStd-Medium.properties'
+    }
 }
 
 dependencies {
@@ -31,12 +38,10 @@ dependencies {
     })
 
 
+    compile 'com.itextpdf:io:7.0.0'
+    compile 'com.itextpdf:kernel:7.0.0'
+    compile 'com.itextpdf:layout:7.0.0'
 
-
-    compile 'com.itextpdf:itext7-core:7.0.2'
-    compile 'com.itextpdf:io:7.0.2'
-    compile 'com.itextpdf:kernel:7.0.2'
-    compile 'com.itextpdf:layout:7.0.2'
 
 
 

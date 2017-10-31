@@ -3,6 +3,9 @@ package com.mjbor.trainingapp.pdfCreator;
 import android.content.Context;
 import android.graphics.Bitmap;
 
+
+import android.graphics.Bitmap;
+
 import com.itextpdf.io.IOException;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.io.source.ByteArrayOutputStream;
@@ -18,7 +21,10 @@ import com.mjbor.trainingapp.models.Exercise;
 import com.mjbor.trainingapp.models.UserResponse;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
+
+import retrofit2.http.Path;
 
 /**
  * Created by mjbor on 10/24/2017.
@@ -26,14 +32,14 @@ import java.util.List;
 
 public class FirstPdf {
 
-
+/*
 
     private String destination;
     public FirstPdf(String destination){
         this.destination = destination;
     }
 
-    public static void createPdf(String fileName){
+   public static void createPdf(String fileName){
         try {
             //create file
             File pdfDirectory = new File(FilesUtils.getSaveFileDirectory()+"/trainingAppReports");
@@ -56,23 +62,20 @@ public class FirstPdf {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     public static boolean createPdf(String fileName, List<Bitmap> listOfChartBitmaps, UserResponse userResponse){
         try {
             //create font
 
-            //create file
+            //create directory
             File pdfDirectory = new File(FilesUtils.getSaveFileDirectory()+"/trainingAppReports");
             pdfDirectory.mkdir();
 
+
+            //create file
             File pdfFile = new File(pdfDirectory, fileName+".pdf");
             String absoluteDestination = pdfFile.getAbsolutePath();
-
-           /* String imagePath = FilesUtils.getSaveFileDirectory() + "/trainingAppCharts/" + fileName + ".png";
-            Image image = new Image(ImageDataFactory.create(imagePath));
-            image.scaleToFit(PageSize.A4.getWidth()/2, PageSize.A4.getHeight()/2);*/
-
 
 
             List<Exercise> exerciseList = userResponse.getExercises();
@@ -115,7 +118,7 @@ public class FirstPdf {
             Image image = new Image(ImageDataFactory.create(stream.toByteArray()));
             return image;
         }
-        catch(IOException ex)
+        catch(Exception ex)
         {
             ex.printStackTrace();
         }
