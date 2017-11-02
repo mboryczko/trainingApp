@@ -5,13 +5,16 @@ import android.Manifest;
 import android.content.pm.FeatureInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +24,10 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
@@ -41,13 +48,13 @@ import com.mjbor.trainingapp.models.ChartPoint;
 import com.mjbor.trainingapp.models.ChartResponse;
 import com.mjbor.trainingapp.models.SetEvent;
 import com.mjbor.trainingapp.models.UserResponse;
-import com.mjbor.trainingapp.pdfCreator.FirstPdf;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,6 +68,7 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -161,6 +169,37 @@ implements IProgressFragment,
             showToast("Image failed to save.");
         }
     }*/
+
+
+    public Bitmap getProfilePicture(String url){
+/*        Glide.with(getContext())
+                .asBitmap()
+                .load(url)
+                .into(new SimpleTarget<Bitmap>(){
+                    @Override
+                    public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                        presenter.
+                }
+                });*/
+
+        Bitmap bitmap = null;
+            try {
+                // Download Image from URL
+
+                Log.e("ProgressFragment", "Started downlaoding avatar" + Thread.currentThread().getName());
+                InputStream input = new java.net.URL(url).openStream();
+                // Decode Bitmap
+                bitmap = BitmapFactory.decodeStream(input);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+        Log.e("ProgressFragment", "Finished downlaoding avatar" + Thread.currentThread().getName());
+            return bitmap;
+    }
+
+
 
     @Override
     public Bitmap getChartBitmap() {

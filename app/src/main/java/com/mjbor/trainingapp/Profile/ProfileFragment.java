@@ -42,8 +42,6 @@ public class ProfileFragment extends Fragment implements IProfileFragment,
 
     public ProfilePresenter presenter;
 
-
-
     @BindView(R.id.topNameTextView) TextView topNameTextView;
     @BindView(R.id.surnameTextView) TextView surnameTextView;
     @BindView(R.id.emailTextView) TextView emailTextView;

@@ -1,6 +1,7 @@
 package com.mjbor.trainingapp.Utils;
 
 import com.mjbor.trainingapp.models.Exercise;
+import com.mjbor.trainingapp.models.UserResponse;
 
 import java.util.List;
 
@@ -17,6 +18,14 @@ public class StringUtils {
         return Integer.toString(number);
     }
 
+
+    public static String preparePersonalInfo(UserResponse u){
+        String personalInfo = u.getName() + "\n" +
+                u.getSurname() + "\n" +
+                u.getEmail() + "\n" ;
+
+        return personalInfo;
+    }
 
     public static String prepareListOfBestResults(List<Exercise> exercises){
         String list = "";

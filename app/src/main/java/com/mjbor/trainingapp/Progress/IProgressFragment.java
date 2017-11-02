@@ -8,6 +8,8 @@ import com.mjbor.trainingapp.models.ChartResponse;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.reactivex.Observable;
+
 /**
  * Created by mjbor on 10/3/2017.
  */
@@ -23,6 +25,8 @@ public interface IProgressFragment {
 
     void loadCharts(AllChartResponse allChartResponse);
     void clearEntries();
+
+    Bitmap getProfilePicture(String url);
 
     void addEntry(float x, float y);
     void addDataSet(String labelName);

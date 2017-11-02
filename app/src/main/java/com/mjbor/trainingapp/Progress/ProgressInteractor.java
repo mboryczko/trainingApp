@@ -29,9 +29,9 @@ public class ProgressInteractor implements Callback<AllChartResponse> {
     public void getAllChartPoints(String token){
         Call<AllChartResponse> call = progressWebService.getChartPoints(token);
         call.enqueue(this);
-
-
     }
+
+
 
 
     @Override

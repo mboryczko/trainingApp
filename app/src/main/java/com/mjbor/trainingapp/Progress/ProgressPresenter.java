@@ -10,8 +10,11 @@ import com.mjbor.trainingapp.models.ChartPoint;
 import com.mjbor.trainingapp.models.ChartResponse;
 import com.mjbor.trainingapp.models.PdfWrapper;
 import com.mjbor.trainingapp.models.UserResponse;
-import com.mjbor.trainingapp.pdfCreator.FirstPdf;
+import com.mjbor.trainingapp.pdfCreator.PdfGenerator;
 
+import org.reactivestreams.Subscriber;
+
+import java.io.FileReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,7 +23,9 @@ import java.util.List;
 import java.util.Locale;
 
 import io.reactivex.Observable;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -57,26 +62,65 @@ public class ProgressPresenter {
             Date date = new Date();
             String fileName = date.toString();
             List<ChartResponse> listOfChartResponses = allChartResponse.getList();
-            for(ChartResponse chartResponse : listOfChartResponses){
-                view.clearEntries();
-                loadSpecificExerciseChart(chartResponse);
-                Bitmap b = view.getChartBitmap();
-                listOfChartsBitmaps.add(b);
-            }
 
-
-            PdfWrapper pdfWrapper = new PdfWrapper(fileName, userResponse, listOfChartsBitmaps);
-            Observable.just(pdfWrapper)
+            //load profile image
+            Observable.just(userResponse.getAvatar())
                     .subscribeOn(Schedulers.computation())
-                    .map(pdf -> FirstPdf.createPdf(pdfWrapper))
+                    .map(url -> view.getProfilePicture(url))
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(message -> view.showToast(message));
+                    .subscribe(new Observer<Bitmap>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(Bitmap bitmap) {
+                            listOfChartsBitmaps.add(bitmap);
+
+                            //load first chart with all exercises
+                            view.clearEntries();
+                            view.loadCharts(allChartResponse);
+                            addCurrentChartToBitmapList();
+
+                            //load all other exercises
+                            for(ChartResponse chartResponse : listOfChartResponses){
+                                view.clearEntries();
+                                loadSpecificExerciseChart(chartResponse);
+                                addCurrentChartToBitmapList();
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            e.printStackTrace();
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            //prepare classes
+                            PdfWrapper pdfWrapper = new PdfWrapper(fileName, userResponse, listOfChartsBitmaps);
+                            PdfGenerator pdfGenerator = new PdfGenerator();
+
+                            //reactively create pdf raport
+                            Observable.just(pdfWrapper)
+                                    .subscribeOn(Schedulers.computation())
+                                    .map(pdf -> pdfGenerator.createPdf(pdfWrapper))
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(message -> view.showToast(message));
+                        }
+                    });
 
         }else {
             //view.requestPermissions();
             view.showToast("You can't do that now :<");
         }
 
+    }
+
+    public void addCurrentChartToBitmapList(){
+        Bitmap b = view.getChartBitmap();
+        listOfChartsBitmaps.add(b);
     }
 
     public void storagePermissionGranted(){
@@ -89,7 +133,8 @@ public class ProgressPresenter {
 
         if(exerciseName.equals("All")){
             if(progressDataFetched){
-                onAllUserDataFetchedSuccessfully(allChartResponse);
+                view.loadCharts(allChartResponse);
+                view.invalidateChart();
             }
         }
 
@@ -113,8 +158,6 @@ public class ProgressPresenter {
 
     }
 
-
-
     public void onAllUserDataFetchedSuccessfully(AllChartResponse allChartResponse){
         this.allChartResponse = allChartResponse;
         progressDataFetched = true;
@@ -127,6 +170,7 @@ public class ProgressPresenter {
         profileDataFetched = true;
 
     }
+
 
 
     public void loadSpecificExerciseChart(ChartResponse chartResponse){
