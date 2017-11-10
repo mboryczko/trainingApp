@@ -17,7 +17,6 @@ public class ApiClient {
     public static final String BASE_URL = "http://michalboryczko.pl/";
     private static Retrofit retrofit = null;
 
-
     private static OkHttpClient createDefaultOkHttpClient() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -25,7 +24,6 @@ public class ApiClient {
                 .addInterceptor(interceptor)
                 .build();
     }
-
 
     public static Retrofit getClient() {
         Gson gson = new GsonBuilder()
@@ -39,10 +37,6 @@ public class ApiClient {
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }
-
-
         return retrofit;
     }
-
-
 }

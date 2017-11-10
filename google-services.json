@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "128181247216",
+    "firebase_url": "https://training-9d687.firebaseio.com",
+    "project_id": "training-9d687",
+    "storage_bucket": "training-9d687.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:128181247216:android:68e67ec324f2dcae",
+        "android_client_info": {
+          "package_name": "com.mjbor.trainingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "128181247216-id8u49rqjndccbun3cc4i6021asjv9hi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhHRkBjl40tID1tIzCCHq3h0bcW_rkDmo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

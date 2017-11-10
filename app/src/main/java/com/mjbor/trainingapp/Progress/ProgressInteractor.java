@@ -37,18 +37,16 @@ public class ProgressInteractor implements Callback<AllChartResponse> {
     @Override
     public void onResponse(Call<AllChartResponse> call, Response<AllChartResponse> response) {
         AllChartResponse allChartResponse = response.body();
-        //String serverMessage = allChartResponse.getList().get(0).getMessage();
+        String serverMessage = allChartResponse.getMessage();
 
         //TODO
-       /* if(chartResponse.isError()){
+        if(allChartResponse.isError()){
             presenter.onUserDataFetchedFailed(serverMessage);
-        }*/
-
-        /*else{
+        }
+        else{
             presenter.onAllUserDataFetchedSuccessfully(allChartResponse);
-        }*/
+        }
 
-        presenter.onAllUserDataFetchedSuccessfully(allChartResponse);
     }
 
     @Override

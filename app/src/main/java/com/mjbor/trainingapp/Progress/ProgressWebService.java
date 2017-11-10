@@ -11,10 +11,8 @@ import retrofit2.http.POST;
  */
 
 public interface ProgressWebService {
-
     @FormUrlEncoded
     @POST("getChartPoints.php")
     Call<AllChartResponse> getChartPoints(@Field("token") String token);
-
 
 }

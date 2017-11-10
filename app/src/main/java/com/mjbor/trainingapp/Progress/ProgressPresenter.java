@@ -112,8 +112,10 @@ public class ProgressPresenter {
                     });
 
         }else {
-            //view.requestPermissions();
-            view.showToast("You can't do that now :<");
+            if(!permissionGranted)
+                view.requestPermissions();
+            else
+                view.showToast("You can't do that now :<");
         }
 
     }
@@ -163,6 +165,10 @@ public class ProgressPresenter {
         progressDataFetched = true;
         view.loadCharts(allChartResponse);
         view.invalidateChart();
+    }
+
+    public void onUserDataFetchedFailed(String serverMessage){
+        view.showToast(serverMessage);
     }
 
     public void onUserProfileDataFetched(UserResponse userResponse){

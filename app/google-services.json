@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "897353985426",
+    "firebase_url": "https://trainingapp-e888d.firebaseio.com",
+    "project_id": "trainingapp-e888d",
+    "storage_bucket": "trainingapp-e888d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:897353985426:android:68e67ec324f2dcae",
+        "android_client_info": {
+          "package_name": "com.mjbor.trainingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "897353985426-v3b55124ft3guaa8hs8rqqh9vohtn5uu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mjbor.trainingapp",
+            "certificate_hash": "8ab1bd09e715692bbdf2ce9ba3bfccc16aa40889"
+          }
+        },
+        {
+          "client_id": "897353985426-6m66cr8lbcuplqv920i128in0s928p1j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoSV6CBMBpACqigoEZgyWxEmle3ywHw5E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "897353985426-6m66cr8lbcuplqv920i128in0s928p1j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
