@@ -57,7 +57,7 @@
     </LinearLayout>
 
 
-    <LinearLayout
+    <ScrollView
         android:id="@+id/registerForm"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -65,87 +65,96 @@
         android:orientation="vertical">
 
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="fill_parent"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center">
+            android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/squatEditText"
-                android:layout_width="250dp"
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="Max squat"
-                android:imeOptions="actionNext"
-                android:inputType="number" />
+                android:gravity="center">
 
-        </android.support.design.widget.TextInputLayout>
+                <EditText
+                    android:id="@+id/squatEditText"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Max squat"
+                    android:imeOptions="actionNext"
+                    android:inputType="number" />
+
+            </android.support.design.widget.TextInputLayout>
 
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center">
-
-            <EditText
-                android:id="@+id/benchPressEditText"
-                android:layout_width="250dp"
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="Max bench press"
-                android:imeOptions="actionNext"
-                android:inputType="number" />
+                android:gravity="center">
 
-        </android.support.design.widget.TextInputLayout>
+                <EditText
+                    android:id="@+id/benchPressEditText"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Max bench press"
+                    android:imeOptions="actionNext"
+                    android:inputType="number" />
+
+            </android.support.design.widget.TextInputLayout>
 
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center">
-
-            <EditText
-                android:id="@+id/barbellRowEditText"
-                android:layout_width="250dp"
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="Max barbel row"
-                android:imeOptions="actionNext"
-                android:inputType="number" />
+                android:gravity="center">
 
-        </android.support.design.widget.TextInputLayout>
+                <EditText
+                    android:id="@+id/barbellRowEditText"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Max barbel row"
+                    android:imeOptions="actionNext"
+                    android:inputType="number" />
+
+            </android.support.design.widget.TextInputLayout>
 
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center">
-
-            <EditText
-                android:id="@+id/ohpEditText"
-                android:layout_width="250dp"
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="Max over head press"
-                android:imeOptions="actionNext"
-                android:inputType="number" />
+                android:gravity="center">
 
-        </android.support.design.widget.TextInputLayout>
+                <EditText
+                    android:id="@+id/ohpEditText"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Max over head press"
+                    android:imeOptions="actionNext"
+                    android:inputType="number" />
+
+            </android.support.design.widget.TextInputLayout>
 
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center">
-
-            <EditText
-                android:id="@+id/deadliftEditText"
-                android:layout_width="250dp"
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="Max deadlift"
-                android:imeOptions="actionNext"
-                android:inputType="number" />
+                android:gravity="center">
 
-        </android.support.design.widget.TextInputLayout>
+                <EditText
+                    android:id="@+id/deadliftEditText"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Max deadlift"
+                    android:imeOptions="actionNext"
+                    android:inputType="number" />
+
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
 
 
-    </LinearLayout>
+
+
+    </ScrollView>
 
 
 </LinearLayout>

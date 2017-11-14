@@ -1,5 +1,6 @@
 package com.mjbor.trainingapp.Profile;
 
+import android.util.Log;
 import android.widget.Button;
 
 import com.mjbor.trainingapp.R;
@@ -12,6 +13,8 @@ import com.mjbor.trainingapp.sessions.ISessionManager;
 import java.util.List;
 
 import butterknife.BindView;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 /**
  * Created by mjbor on 9/17/2017.
@@ -31,6 +34,34 @@ public class ProfilePresenter {
         getUserInfo();
     }
 
+
+    public void imageClicked(){
+        if(view.checkPermissions()){
+            view.openGallery();
+        }
+        else {
+            view.requestPermissions();
+        }
+    }
+
+    public void uploadImge(MultipartBody.Part fileToUpload, RequestBody filename){
+        interactor.uploadFile(fileToUpload, filename, view.createTextRequestBody(token));
+    }
+
+    public void readPermissionGranted(){
+        Log.e("ProfilePresente", "ReadPermissionsGranted");
+    }
+
+    public void onUploadSuccess(String avatarUrl){
+        view.showToast("Success upload file");
+        view.setProfileAsync(avatarUrl);
+
+        interactor.getUserInfo(token);
+    }
+
+    public void onUploadFailure(String errorMessage){
+        view.showToast(errorMessage);
+    }
 
     public void onImageFetched() {
 

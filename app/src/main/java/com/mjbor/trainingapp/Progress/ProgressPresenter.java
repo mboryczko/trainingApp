@@ -126,7 +126,7 @@ public class ProgressPresenter {
     }
 
     public void storagePermissionGranted(){
-        saveClicked();
+        //saveClicked();
     }
 
 

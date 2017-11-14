@@ -3,14 +3,11 @@ package com.mjbor.trainingapp.Login.presenter;
 
 import com.mjbor.trainingapp.Login.model.LoginInteractor;
 import com.mjbor.trainingapp.Login.view.ILoginView;
-import com.mjbor.trainingapp.Register.model.RegisterInteractor;
 import com.mjbor.trainingapp.Register.model.RegisterModel;
-import com.mjbor.trainingapp.Utils.UserUtils;
 import com.mjbor.trainingapp.models.Exercise;
 import com.mjbor.trainingapp.models.Training;
 import com.mjbor.trainingapp.models.User;
 import com.mjbor.trainingapp.sessions.ISessionManager;
-import com.mjbor.trainingapp.sessions.SessionManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;

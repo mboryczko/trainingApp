@@ -9,6 +9,8 @@ public class Constants {
     public static final String WEIGHT = "weight";
 
     public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL = 777;
+    public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL = 776;
+    public static final int REQUEST_GALLERY_CODE = 555;
 
     public static final String CURRENT_SCREEN = "screen";
     public static final String ADDITIONAL_EXERCISES = "additional";
