@@ -47,11 +47,12 @@ public class NewExerciseDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(final Bundle savedInstanceState) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
         final LayoutInflater inflater = getActivity().getLayoutInflater();
         final View view = inflater.inflate(R.layout.new_exercise_dialog, null);
         ButterKnife.bind(this, view);
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(view)
                 // Add action buttons
                 .setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {

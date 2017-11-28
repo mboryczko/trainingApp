@@ -26,23 +26,13 @@ public class SessionManager implements ISessionManager {
 
     @Inject SharedPreferences pref;
     @Inject Editor editor;
-
     Context _context;
-
-/*    int PRIVATE_MODE = 0;
-    private static final String PREF_NAME = "com.mjbor";
-    private static final String IS_LOGIN = "IsLoggedIn";
-    public static final String TOKEN = "token";*/
-
-
 
     public SessionManager(Context context) {
         this._context = context;
         ((TrainingApplication)context).getAppComponent().inject(this);
-
-        /*pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
-        editor = pref.edit();*/
     }
+
 
 
     public String getUserToken(){

@@ -35,6 +35,9 @@ public class LoginPresenter {
         checkIfUserIsAlreadyLoggedIn();
     }
 
+    public void showMessage(String message){
+        view.showToast(message);
+    }
 
     public void onRegisterSuccess(){
         onFacebookLoginSuccess(user);
@@ -100,7 +103,7 @@ public class LoginPresenter {
         training2.setExercises(exercises2);
 
 
-
+        user.setActivated(true);
         RegisterModel registerModel = new RegisterModel(training1, training2, user);
 
         loginInteractor.register(registerModel);
@@ -165,6 +168,11 @@ public class LoginPresenter {
         }
 
         return true;
+    }
+
+
+    public void forgottenPassword(String email){
+        loginInteractor.forgottenPassword(email);
     }
 
 }

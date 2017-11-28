@@ -92,4 +92,27 @@ public class LoginInteractor implements Callback<LoginResponse> {
         });
     }
 
+
+    public void forgottenPassword(String email){
+        Call<DefaultResponse> call = loginWebService.forgottenPassword(email);
+        call.enqueue(new Callback<DefaultResponse>() {
+            @Override
+            public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
+                DefaultResponse defaultResponse = response.body();
+                if(defaultResponse.isError()){
+                    loginPresenter.showMessage(defaultResponse.getMessage());
+                }
+
+                else{
+                    loginPresenter.showMessage(defaultResponse.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DefaultResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
 }

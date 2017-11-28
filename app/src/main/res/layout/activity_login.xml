@@ -95,13 +95,27 @@
                 android:onClick="registerHereClicked"
                 />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
             <TextView
-                android:layout_marginLeft="10dp"
-                android:textColor="@color/color4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tutorial"
-                android:onClick="tutorialClicked"
+                android:text="@string/forgotten_password"/>
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/colorPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/resend_password"
+                android:onClick="forgottenClicked"
                 />
 
         </LinearLayout>

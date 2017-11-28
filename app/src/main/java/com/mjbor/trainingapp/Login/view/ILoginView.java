@@ -6,6 +6,7 @@ package com.mjbor.trainingapp.Login.view;
 
 public interface ILoginView {
 
+    void showToast(String message);
     public void goToMain();
     public void toast(String message);
     public void promptRecordPopup();

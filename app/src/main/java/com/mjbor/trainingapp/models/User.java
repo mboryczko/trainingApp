@@ -12,6 +12,7 @@ public class User {
     private String surname;
     private String avatar;
     private String cover;
+    private boolean activated;
 
     public User(){
 
@@ -22,6 +23,14 @@ public class User {
         this.password = password;
         this.name = name;
         this.surname = surname;
+    }
+
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
     }
 
     public String getCover() {

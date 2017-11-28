@@ -3,10 +3,15 @@ package com.mjbor.trainingapp.Profile;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -70,11 +75,31 @@ public class ProfileFragment extends Fragment implements IProfileFragment,
     @BindView(R.id.profileImage) FloatingActionButton floatingActionButton;
     @BindView(R.id.backImage) ImageView backImage;
 
+    @BindView(R.id.stepTextView) TextView stepsTextView;
+
 
     @BindView(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingToolbarLayout;
     @BindView(R.id.app_bar_layout) AppBarLayout appBarLayout;
 
     private Uri uri;
+
+    private SensorManager mSensorManager;
+    private Sensor mSensor;
+
+    private SensorEventListener mSensorEventListener = new SensorEventListener() {
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int i) {
+
+        }
+
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            int stepsCount = (int)(event.values[0]);
+            presenter.onStepsChanged(stepsCount);
+        }
+    };
+
 
     public ProfileFragment() {
     }
@@ -86,6 +111,9 @@ public class ProfileFragment extends Fragment implements IProfileFragment,
         String token = getArguments().getString(Constants.TOKEN, null);
         this.presenter = new ProfilePresenter(this, token);
 
+
+        mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
+        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
     }
 
     @Override
@@ -171,6 +199,8 @@ public class ProfileFragment extends Fragment implements IProfileFragment,
     public void onResume() {
         super.onResume();
         appBarLayout.addOnOffsetChangedListener(this);
+        mSensorManager.registerListener(mSensorEventListener, mSensor,
+                SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
@@ -178,6 +208,8 @@ public class ProfileFragment extends Fragment implements IProfileFragment,
         super.onPause();
         appBarLayout.removeOnOffsetChangedListener(this);
     }
+
+
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -282,5 +314,9 @@ public class ProfileFragment extends Fragment implements IProfileFragment,
         emailTextView.setText(email);
     }
 
+    @Override
+    public void setSteps(String text) {
+        stepsTextView.setText(text);
+    }
 
 }

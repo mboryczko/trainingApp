@@ -14,6 +14,8 @@
 
 
     <string name="register_prompt">Don\'t have an account yet?</string>
+    <string name="forgotten_password">Forgot your password?</string>
+    <string name="resend_password">Resend password</string>
     <string name="register_here">Register here</string>
 
     <string name="home_navigation_bar">Home</string>
@@ -22,6 +24,7 @@
 
     <!-- PROFILE FRAGMENT -->
     <string name="profile_best_results">Best results</string>
+    <string name="profile_step_counter">Step counter</string>
     <string name="profile_logout">Logout</string>
     <string name="profile_username">Username</string>
     <string name="profile_email">Email</string>

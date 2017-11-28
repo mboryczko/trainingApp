@@ -27,4 +27,8 @@ public interface LoginWebService {
     @POST("/newRegister.php")
     Call<DefaultResponse> registration(@Body RegisterModel registerModel);
 
+    @FormUrlEncoded
+    @POST("/forgottenPassword.php")
+    Call<DefaultResponse> forgottenPassword(@Field("email") String email);
+
 }

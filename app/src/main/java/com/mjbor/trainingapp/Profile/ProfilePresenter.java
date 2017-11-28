@@ -26,6 +26,9 @@ public class ProfilePresenter {
     ProfileInteractor interactor;
     String token;
 
+    private int steps;
+    private int calories;
+
 
     public ProfilePresenter(IProfileFragment view, String token) {
         this.view = view;
@@ -71,12 +74,24 @@ public class ProfilePresenter {
 
     }
 
+    public void onStepsChanged(int steps){
+        this.steps = steps;
+        calculateAndSetCalories(steps);
+    }
+
+    public void calculateAndSetCalories(int steps){
+        calories  = steps / 20;
+    }
 
 
     public void getUserInfo(){
         interactor.getUserInfo(token);
     }
 
+    public String getStepsInfo(){
+        return "• Steps: "  +  this.steps + "\n" +
+                "• Calories: "  +  this.calories + "\n";
+    }
 
     public void onUserDataFetchedSuccessfully(UserResponse u){
         view.setProfileTopName(u.getName());
@@ -86,9 +101,8 @@ public class ProfilePresenter {
         view.setProfileAsync(u.getAvatar());
         view.setCoverAsync(u.getCover());
 
-
-
         view.setCollapsingTootlbarTitle(u.getName());
+        view.setSteps(getStepsInfo());
 
     }
 

@@ -28,6 +28,7 @@ import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.mjbor.trainingapp.Login.dialog.ForgotPasswordDialog;
 import com.mjbor.trainingapp.Login.presenter.LoginPresenter;
 import com.mjbor.trainingapp.Main.view.MainActivity;
 import com.mjbor.trainingapp.R;
@@ -55,7 +56,8 @@ import static com.facebook.Profile.fetchProfileForCurrentAccessToken;
 
 public class LoginActivity extends AppCompatActivity
         implements ILoginView, FacebookCallback<LoginResult>,
-        TrainingHistoryDialog.TrainingHistoryListener{
+        TrainingHistoryDialog.TrainingHistoryListener,
+        ForgotPasswordDialog.ForgottenPasswordListener{
 
 
     @BindView(R.id.emailEditText) EditText emailEdiText;
@@ -70,7 +72,12 @@ public class LoginActivity extends AppCompatActivity
     private CallbackManager callbackManager;
 
     private TrainingHistoryDialog dialog;
+    private ForgotPasswordDialog forgotPasswordDialog;
 
+    @Override
+    public void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +105,12 @@ public class LoginActivity extends AppCompatActivity
         List<Double> list = ((TrainingHistoryDialog) dialog).getList();
         presenter.userHistoryProvided(list);
         dialog.dismiss();
+    }
+
+    @Override
+    public void onForgottenClicked(DialogFragment dialog) {
+        String email = ((ForgotPasswordDialog) dialog).getEmail();
+        presenter.forgottenPassword(email);
     }
 
     @Override
@@ -233,9 +246,9 @@ public class LoginActivity extends AppCompatActivity
         startActivity(i);
     }
 
-    public void tutorialClicked(View v){
-        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email", "public_profile"));
-
+    public void forgottenClicked(View v){
+        forgotPasswordDialog = new ForgotPasswordDialog();
+        forgotPasswordDialog.show(getSupportFragmentManager(), "ForgottenPasswordDialog");
     }
 
 

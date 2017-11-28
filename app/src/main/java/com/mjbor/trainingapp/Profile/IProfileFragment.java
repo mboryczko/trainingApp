@@ -10,11 +10,12 @@ import okhttp3.RequestBody;
 
 public interface IProfileFragment {
 
-    public void setProfileTopName(String topName);
-    public void setProfileSurname(String surname);
-    public void setProfileEmail(String email);
-    public void setProfileAsync(String url);
-    public void setCoverAsync(String url);
+    void setProfileTopName(String topName);
+    void setProfileSurname(String surname);
+    void setProfileEmail(String email);
+    void setProfileAsync(String url);
+    void setCoverAsync(String url);
+    void setSteps(String text);
     void showToast(String message);
     void openGallery();
     boolean checkPermissions();
